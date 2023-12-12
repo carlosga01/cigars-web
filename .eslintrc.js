@@ -1,0 +1,6 @@
+module.exports = {
+  extends: ["next", "next/core-web-vitals", "plugin:prettier/recommended"],
+  rules: {
+    // Additional rules or overrides go here
+  },
+};
