@@ -13,7 +13,7 @@ export default function Home() {
         alt="background"
         className="absolute w-full h-full object-cover opacity-25"
       />
-      <div className="text-white font-bold text-8xl z-10">Puros</div>
+      <div className="text-white font-bold text-8xl z-10">Puros App</div>
     </main>
   );
 }
