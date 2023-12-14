@@ -11,6 +11,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.28.0",
+    "@xata.io/client": "^0.28.0",
     "axios": "^1.6.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",

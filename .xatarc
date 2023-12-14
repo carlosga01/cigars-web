@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Carlos-Garcia-s-workspace-pk4k6s.us-east-1.xata.sh/db/puros",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}

@@ -1,12 +1,17 @@
 import Image from "next/image";
 
 import Background from "/public/images/landing/background.jpg";
-import { Header } from "@/components";
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default function LandingPage() {
+  const { userId } = auth();
+  if (userId) {
+    redirect("/home");
+  }
+
   return (
-    <main className="flex h-screen flex-col items-center justify-center p-24">
-      <Header />
+    <main className="min-h-screen flex items-center justify-center">
       <Image
         priority
         src={Background}
