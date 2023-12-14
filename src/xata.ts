@@ -2,7 +2,31 @@
 import { buildClient } from "@xata.io/client";
 import type { BaseClientOptions, SchemaInference, XataRecord } from "@xata.io/client";
 
-const tables = [{ name: "reviews", columns: [] }] as const;
+const tables = [
+  {
+    name: "reviews",
+    columns: [
+      { name: "cigar", type: "link", link: { table: "cigars" } },
+      { name: "rating", type: "float", notNull: true, defaultValue: "0" },
+      { name: "reviewText", type: "text" },
+      { name: "userId", type: "string", notNull: true, defaultValue: "null" },
+      {
+        name: "images",
+        type: "file[]",
+        "file[]": { defaultPublicAccess: true },
+      },
+    ],
+  },
+  {
+    name: "cigars",
+    columns: [
+      { name: "name", type: "string" },
+      { name: "manufacturer", type: "string" },
+      { name: "country", type: "string" },
+    ],
+    revLinks: [{ column: "cigar", table: "reviews" }],
+  },
+] as const;
 
 export type SchemaTables = typeof tables;
 export type InferredTypes = SchemaInference<SchemaTables>;
@@ -10,8 +34,12 @@ export type InferredTypes = SchemaInference<SchemaTables>;
 export type Reviews = InferredTypes["reviews"];
 export type ReviewsRecord = Reviews & XataRecord;
 
+export type Cigars = InferredTypes["cigars"];
+export type CigarsRecord = Cigars & XataRecord;
+
 export type DatabaseSchema = {
   reviews: ReviewsRecord;
+  cigars: CigarsRecord;
 };
 
 const DatabaseClient = buildClient();

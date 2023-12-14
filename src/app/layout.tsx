@@ -17,7 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en">
         <body
           className={
-            robotoFlex.className + " min-h-screen flex items-center justify-center"
+            robotoFlex.className +
+            " min-h-screen flex items-center justify-center bg-slate-50"
           }
         >
           <Header />

@@ -1,0 +1,16 @@
+{
+  "id": "mig_clths4o70t87hp15t720",
+  "parentID": "mig_clthq1o70t87hp15t5sg",
+  "checksum": "1:5a08e528fc7186d8918f5dbf0ba429a0ddd8382145fc1e577fac5a97d4e14fdf",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user_id",
+          "type": "string"
+        },
+        "table": "reviews"
+      }
+    }
+  ]
+}

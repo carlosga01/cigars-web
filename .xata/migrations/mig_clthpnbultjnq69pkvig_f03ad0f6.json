@@ -1,0 +1,18 @@
+{
+  "id": "mig_clthpnbultjnq69pkvig",
+  "parentID": "mig_clthosjultjnq69pkvg0",
+  "checksum": "1:f03ad0f65e3d119c1436e3ee84a0ee61fb5ccdc0dba26d70d3ed45a467c9f4dc",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "rating",
+          "type": "float",
+          "notNull": true,
+          "defaultValue": "0"
+        },
+        "table": "reviews"
+      }
+    }
+  ]
+}

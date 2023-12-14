@@ -11,7 +11,10 @@ export default function Header() {
   return (
     <header className="flex items-center gap-4 h-20 absolute top-0 z-50 p-4 justify-between w-full sm:justify-end">
       {isLoaded && user ? (
-        <UserButton afterSignOutUrl="/" />
+        <>
+          <div />
+          <UserButton afterSignOutUrl="/" />
+        </>
       ) : (
         <>
           <Button variant="tertiary" text="Log in" onClick={() => push("/sign-in")} />

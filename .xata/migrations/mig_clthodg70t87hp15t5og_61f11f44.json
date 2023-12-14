@@ -1,0 +1,13 @@
+{
+  "id": "mig_clthodg70t87hp15t5og",
+  "parentID": "mig_cltho9lcvflhvetgufrg",
+  "checksum": "1:61f11f44b9d2e35a1bb0c196f222441b0f2b43e6a920c860fa4f87857ece6a17",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "2023-10-01024431301868",
+        "table": "cigars"
+      }
+    }
+  ]
+}

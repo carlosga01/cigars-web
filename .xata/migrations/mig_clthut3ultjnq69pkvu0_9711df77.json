@@ -1,0 +1,19 @@
+{
+  "id": "mig_clthut3ultjnq69pkvu0",
+  "parentID": "mig_clthsg870t87hp15t730",
+  "checksum": "1:9711df7785220dbf816ef664cc8b0f0ccad60162919a90ce96ff12ae7be72fb2",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "images",
+          "type": "file[]",
+          "file[]": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "reviews"
+      }
+    }
+  ]
+}

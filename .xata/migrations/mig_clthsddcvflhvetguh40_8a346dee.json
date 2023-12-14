@@ -1,0 +1,13 @@
+{
+  "id": "mig_clthsddcvflhvetguh40",
+  "parentID": "mig_clths4o70t87hp15t720",
+  "checksum": "1:8a346deecd1ee2b4593a50bf05c4c66bfb4c2f9c4b276515f9080761c56d07e7",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "user_id",
+        "table": "reviews"
+      }
+    }
+  ]
+}

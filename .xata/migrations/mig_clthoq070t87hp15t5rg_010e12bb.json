@@ -1,0 +1,13 @@
+{
+  "id": "mig_clthoq070t87hp15t5rg",
+  "parentID": "mig_clthong70t87hp15t5qg",
+  "checksum": "1:010e12bb5741fb09dd7a9bbb5641c73a5281bc1c51c63604df38062242d624e8",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "cigar_id",
+        "table": "reviews"
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "mig_clti0gdcvflhvetguh50",
+  "parentID": "mig_clthut3ultjnq69pkvu0",
+  "checksum": "1:ecd382ca4a2b766f88b7abf59ecf4ee500ef58122c46e8ce7379c987a4b67c3b",
+  "operations": [
+    {
+      "renameColumn": {
+        "newName": "reviewText",
+        "oldName": "review_text",
+        "table": "reviews"
+      }
+    }
+  ]
+}

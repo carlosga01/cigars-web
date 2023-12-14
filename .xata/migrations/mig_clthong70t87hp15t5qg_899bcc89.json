@@ -1,0 +1,19 @@
+{
+  "id": "mig_clthong70t87hp15t5qg",
+  "parentID": "mig_clthoeg70t87hp15t5pg",
+  "checksum": "1:899bcc89f34224fe5d1ef9eb1afc91fbb836a1148c4166403fa4ab2360654455",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "cigar_id",
+          "type": "link",
+          "link": {
+            "table": "cigars"
+          }
+        },
+        "table": "reviews"
+      }
+    }
+  ]
+}

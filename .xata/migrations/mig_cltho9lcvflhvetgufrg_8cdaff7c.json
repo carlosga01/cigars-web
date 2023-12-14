@@ -1,0 +1,57 @@
+{
+  "id": "mig_cltho9lcvflhvetgufrg",
+  "parentID": "mig_clthms070t87hp15t4og",
+  "checksum": "1:8cdaff7c9c0cc486fdefdd01a621008c1a17b9a42d75300258dc5140b6030a88",
+  "operations": [
+    {
+      "addTable": {
+        "table": "cigars"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "string"
+        },
+        "table": "cigars"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "manufacturer",
+          "type": "string"
+        },
+        "table": "cigars"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "country",
+          "type": "string"
+        },
+        "table": "cigars"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "2023-10-01024431301868",
+          "type": "datetime"
+        },
+        "table": "cigars"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "2023-10-01024431301868_1",
+          "type": "datetime"
+        },
+        "table": "cigars"
+      }
+    }
+  ]
+}

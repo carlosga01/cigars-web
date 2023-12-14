@@ -1,0 +1,12 @@
+{
+  "id": "mig_clthms070t87hp15t4og",
+  "parentID": "mig_clthmeo70t87hp15t470",
+  "checksum": "1:e01f0feced32d694850d4f6c8203f4663234f53d2a2106719a6df6dfe5d7e1b2",
+  "operations": [
+    {
+      "removeTable": {
+        "table": "cigars"
+      }
+    }
+  ]
+}
