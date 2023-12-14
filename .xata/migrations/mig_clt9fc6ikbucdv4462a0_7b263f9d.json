@@ -1,0 +1,11 @@
+{
+  "id": "mig_clt9fc6ikbucdv4462a0",
+  "checksum": "1:7b263f9dff18f618fd91c42f63021e79b72fcf33e6a2db9c43f67138db421fde",
+  "operations": [
+    {
+      "addTable": {
+        "table": "reviews"
+      }
+    }
+  ]
+}
