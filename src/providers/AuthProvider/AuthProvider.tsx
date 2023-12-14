@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
-import { User } from "@/client/response.types";
+import { createContext, useState } from "react";
+import { User } from "@/api/response.types";
 
 export type AuthContextValues = {
   isAuthenticated?: boolean;
