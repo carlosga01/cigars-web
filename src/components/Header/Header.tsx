@@ -1,26 +1,43 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/base";
 import { UserButton, useUser } from "@clerk/nextjs";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Link,
+  Button,
+} from "@nextui-org/react";
 
 export default function Header() {
   const { user, isLoaded } = useUser();
-  const { push } = useRouter();
 
   return (
-    <header className="flex items-center gap-4 h-20 absolute top-0 z-50 p-4 justify-between w-full sm:justify-end">
-      {isLoaded && user ? (
-        <>
-          <div />
-          <UserButton afterSignOutUrl="/" />
-        </>
-      ) : (
-        <>
-          <Button variant="tertiary" text="Log in" onClick={() => push("/sign-in")} />
-          <Button variant="primary" text="Get started" onClick={() => push("/sign-up")} />
-        </>
-      )}
-    </header>
+    <Navbar>
+      <NavbarBrand>
+        <p className="font-bold text-inherit">PUROS</p>
+      </NavbarBrand>
+      <NavbarContent justify="end">
+        {user && isLoaded ? (
+          <NavbarItem>
+            <UserButton showName afterSignOutUrl="/" />
+          </NavbarItem>
+        ) : (
+          <>
+            <NavbarItem>
+              <Button as={Link} color="primary" href="/sign-in" variant="flat">
+                Sign In
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button as={Link} color="primary" href="/sign-up">
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        )}
+      </NavbarContent>
+    </Navbar>
   );
 }

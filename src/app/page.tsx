@@ -11,14 +11,13 @@ export default function LandingPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
+    <main className="relative flex items-center justify-center max-h-screen">
       <Image
         priority
         src={Background}
         alt="background"
-        className="absolute w-full h-full object-cover opacity-25"
+        className="w-full h-screen object-cover"
       />
-      <div className="text-white font-bold text-8xl z-10">Puros App</div>
     </main>
   );
 }

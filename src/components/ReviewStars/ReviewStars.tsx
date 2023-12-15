@@ -11,8 +11,9 @@ export default function ReviewStars({ rating }: Props) {
     <ReactStars
       numberOfStars={5}
       rating={rating}
-      starDimension="32px"
+      starDimension="24px"
       starSpacing="0px"
+      starRatedColor="#FFDF00"
     />
   );
 }

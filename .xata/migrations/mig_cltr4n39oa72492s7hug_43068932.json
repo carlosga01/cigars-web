@@ -1,0 +1,18 @@
+{
+  "id": "mig_cltr4n39oa72492s7hug",
+  "parentID": "mig_clti0j870t87hp15t750",
+  "checksum": "1:43068932fff18cb531476d83f4cddf641ea14f97f3bc4e00ec85ae63761318d4",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "smokedOn",
+          "type": "datetime",
+          "notNull": true,
+          "defaultValue": "now"
+        },
+        "table": "reviews"
+      }
+    }
+  ]
+}
