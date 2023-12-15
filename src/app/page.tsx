@@ -16,7 +16,7 @@ export default function LandingPage() {
         priority
         src={Background}
         alt="background"
-        className="absolute w-full h-full object-cover opacity-25"
+        className="absolute w-full h-full object-cover"
       />
       <div className="text-white font-bold text-8xl z-10">Puros App</div>
     </main>

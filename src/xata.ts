@@ -15,6 +15,12 @@ const tables = [
         type: "file[]",
         "file[]": { defaultPublicAccess: true },
       },
+      {
+        name: "smokedOn",
+        type: "datetime",
+        notNull: true,
+        defaultValue: "now",
+      },
     ],
   },
   {
