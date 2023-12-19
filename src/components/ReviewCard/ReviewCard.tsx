@@ -35,7 +35,7 @@ export default function ReviewCard({ reviewData }: Props) {
           <Image
             alt="Cigar image"
             className="object-cover rounded-full h-16 w-16 md:h-[150px] md:w-[150px]"
-            src={review.images?.[0].url}
+            src={review.images?.[0]?.url}
           />
         </div>
         <div className="flex flex-col">
