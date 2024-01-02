@@ -100,6 +100,7 @@ export default function CreatePage() {
           onSelectionChange={(k) =>
             setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
           }
+          size="lg"
         >
           {cigars.map((cigar) => {
             return <AutocompleteItem key={cigar.id}>{cigar.name}</AutocompleteItem>;
@@ -151,6 +152,8 @@ export default function CreatePage() {
           label="Review"
           placeholder="Enter your review"
           onValueChange={(review) => setRecord((prev) => ({ ...prev, review }))}
+          className="text-base"
+          size="lg"
         />
         <div className="flex justify-center">
           <ReviewStars

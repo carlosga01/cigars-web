@@ -5,3 +5,4 @@ export { default as ReviewCard } from "./ReviewCard";
 export { default as PaginationControls } from "./PaginationControls";
 export { default as NewReviewButton } from "./NewReviewButton";
 export { default as Review } from "./Review";
+export { default as HomeTabs } from "./HomeTabs";

@@ -1,4 +1,4 @@
-import { NewReviewButton, PaginationControls, ReviewCard } from "@/components";
+import { HomeTabs, NewReviewButton, PaginationControls, ReviewCard } from "@/components";
 import { getXataClient } from "@/xata";
 import { auth } from "@clerk/nextjs";
 
@@ -7,10 +7,11 @@ import { redirect } from "next/navigation";
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { page?: string; pageSize?: string };
+  searchParams: { page?: string; pageSize?: string; tab?: "me" | "all" };
 }) {
   const page = searchParams.page ?? "1";
   const pageSize = searchParams.pageSize ?? "5";
+  const tab = searchParams.tab ?? "all";
 
   const { userId } = auth();
   const client = getXataClient();
@@ -21,7 +22,7 @@ export default async function HomePage({
 
   const reviews = await client.db.reviews
     .select(["*", "cigar.*"])
-    .filter({ userId })
+    .filter(tab === "me" ? { userId } : {})
     .sort("smokedOn", "desc")
     .getPaginated({
       pagination: {
@@ -41,6 +42,7 @@ export default async function HomePage({
         <h1 className="text-start font-bold text-xl">Your Smokes</h1>
         <NewReviewButton />
       </div>
+      <HomeTabs tab={tab} />
       <div className="flex flex-col gap-2 w-full md:w-[600px] p-4 mb-24">
         {reviews.records.map((review) => {
           return <ReviewCard key={review.id} reviewData={JSON.stringify(review)} />;

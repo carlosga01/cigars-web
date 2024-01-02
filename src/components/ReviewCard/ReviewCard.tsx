@@ -1,17 +1,11 @@
 "use client";
 
 import { ReviewsRecord } from "@/xata";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Image,
-  Divider,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Image, Divider } from "@nextui-org/react";
 import { ReviewStars } from "..";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { User } from "@clerk/nextjs/server";
 
 type Props = {
   reviewData: string;
@@ -21,10 +15,30 @@ export default function ReviewCard({ reviewData }: Props) {
   const router = useRouter();
 
   const [review, setReview] = useState<ReviewsRecord>();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     setReview(JSON.parse(reviewData) as ReviewsRecord);
   }, [reviewData]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (!!review?.userId) {
+        const u = await fetch(
+          "/api/user?" +
+            new URLSearchParams({
+              userId: review.userId,
+            }),
+        );
+        const u2 = await u.json();
+        console.log(u2);
+        setUser(u2.data as User);
+      }
+    };
+    getUser();
+  }, [review]);
+
+  console.log(user);
 
   if (!review) return null;
 
@@ -64,6 +78,14 @@ export default function ReviewCard({ reviewData }: Props) {
             Rating ({review.rating}){" "}
           </span>
           <ReviewStars rating={review.rating} />
+        </div>
+      </CardFooter>
+
+      <Divider />
+      <CardFooter className="flex">
+        <Image src={user?.imageUrl} className="h-4 w-4" />
+        <div className="text-xs text-slate-400 ms-2">
+          {user?.firstName} {user?.lastName?.[0]}.
         </div>
       </CardFooter>
     </Card>
