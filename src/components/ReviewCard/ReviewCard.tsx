@@ -6,6 +6,7 @@ import { ReviewStars } from "..";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@clerk/nextjs/server";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {
   reviewData: string;
@@ -13,9 +14,10 @@ type Props = {
 
 export default function ReviewCard({ reviewData }: Props) {
   const router = useRouter();
+  const { user } = useUser();
 
   const [review, setReview] = useState<ReviewsRecord>();
-  const [user, setUser] = useState<User>();
+  const [reviewUser, setReviewUser] = useState<User>();
 
   useEffect(() => {
     setReview(JSON.parse(reviewData) as ReviewsRecord);
@@ -31,14 +33,11 @@ export default function ReviewCard({ reviewData }: Props) {
             }),
         );
         const u2 = await u.json();
-        console.log(u2);
-        setUser(u2.data as User);
+        setReviewUser(u2.data as User);
       }
     };
     getUser();
   }, [review]);
-
-  console.log(user);
 
   if (!review) return null;
 
@@ -82,10 +81,13 @@ export default function ReviewCard({ reviewData }: Props) {
       </CardFooter>
 
       <Divider />
-      <CardFooter className="flex">
-        <Image src={user?.imageUrl} className="h-4 w-4" />
+      <CardFooter className="flex flex-row justify-end">
+        <div className="text-xs text-slate-400 italic me-2">Reviewed by</div>
+        <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
         <div className="text-xs text-slate-400 ms-2">
-          {user?.firstName} {user?.lastName?.[0]}.
+          {reviewUser?.id === user?.id
+            ? "You"
+            : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
         </div>
       </CardFooter>
     </Card>

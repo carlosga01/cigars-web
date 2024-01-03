@@ -22,7 +22,7 @@ export default function Review({ review }: Props) {
   if (!data) return null;
 
   return (
-    <div className="container px-4 flex flex-col items-center justify-center">
+    <div className="container p-4 flex flex-col items-center justify-center">
       <div className="flex flex-row items-center justify-between w-full">
         <Button color="primary" variant="flat" onPress={router.back}>
           Back
