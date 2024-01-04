@@ -6,6 +6,7 @@ import {
   AutocompleteItem,
   Button,
   Image,
+  Input,
   Textarea,
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
@@ -14,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useDebounce } from "use-debounce";
 import { CreateReviewPayload } from "../api/create/route";
+import { CreateCigarPayload } from "../api/cigar/route";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -33,6 +35,9 @@ export default function CreatePage() {
 
   const [image, setImage] = useState<File>();
   const [imageSrc, setImageSrc] = useState("");
+
+  const [customCigar, setCustomCigar] = useState(false);
+  const [customCigarName, setCustomCigarName] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,21 +70,48 @@ export default function CreatePage() {
   }, [image]);
 
   const saveEnabled = useMemo(
-    () => !!record.cigarId && !!record.rating && !!record.review && !!image,
-    [record, image],
+    () =>
+      (!!record.cigarId || !!customCigarName.length) &&
+      !!record.rating &&
+      !!record.review &&
+      !!image,
+    [record, image, customCigarName],
   );
 
   const onSave = async () => {
     if (!image) return;
     setIsSaving(true);
-    await fetch("/api/create", {
-      method: "POST",
-      body: JSON.stringify({
-        ...record,
-        image,
-        imageBase64: imageSrc,
-      } as CreateReviewPayload),
-    });
+
+    if (customCigar && customCigarName.length) {
+      const newCigar = await fetch("/api/cigar", {
+        method: "POST",
+        body: JSON.stringify({
+          name: customCigarName,
+        } as CreateCigarPayload),
+      });
+      const newCigarJson = await newCigar.json();
+      const cigarId = newCigarJson.data.id;
+
+      await fetch("/api/create", {
+        method: "POST",
+        body: JSON.stringify({
+          ...record,
+          cigarId,
+          image,
+          imageBase64: imageSrc,
+        } as CreateReviewPayload),
+      });
+    } else {
+      await fetch("/api/create", {
+        method: "POST",
+        body: JSON.stringify({
+          ...record,
+          image,
+          imageBase64: imageSrc,
+        } as CreateReviewPayload),
+      });
+    }
+
     setIsSaving(false);
     router.push("/home");
   };
@@ -93,19 +125,39 @@ export default function CreatePage() {
             Cancel
           </Button>
         </div>
-        <Autocomplete
-          label="Cigar"
-          placeholder="Search for a cigar"
-          onInputChange={setCigarSearch}
-          onSelectionChange={(k) =>
-            setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
-          }
-          size="lg"
-        >
-          {cigars.map((cigar) => {
-            return <AutocompleteItem key={cigar.id}>{cigar.name}</AutocompleteItem>;
-          })}
-        </Autocomplete>
+        {customCigar ? (
+          <>
+            <Input label="Cigar name" onValueChange={setCustomCigarName} />
+          </>
+        ) : (
+          <>
+            <Autocomplete
+              label="Cigar"
+              placeholder="Search for a cigar"
+              onInputChange={setCigarSearch}
+              onSelectionChange={(k) =>
+                setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
+              }
+              size="lg"
+            >
+              {cigars.map((cigar) => {
+                return <AutocompleteItem key={cigar.id}>{cigar.name}</AutocompleteItem>;
+              })}
+            </Autocomplete>
+            <div className="flex flex-row items-center justify-center">
+              <div className="text-slate-600 italic  mr-4">
+                Don&apos;t see your cigar?
+              </div>
+              <Button
+                color="primary"
+                variant="bordered"
+                onPress={() => setCustomCigar(true)}
+              >
+                Add it
+              </Button>
+            </div>
+          </>
+        )}
 
         {imageSrc ? (
           <div className="flex flex-row w-full justify-center items-center">
