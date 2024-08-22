@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { Button, Spinner } from "@nextui-org/react";
 
 import { redirect } from "next/navigation";
+import colors from "@/theme/colors";
 
 export default async function HomePage({
   searchParams,
@@ -38,9 +39,17 @@ export default async function HomePage({
   });
 
   return (
-    <div className="flex flex-col items-center">
+    <div
+      className="flex flex-col items-center"
+      style={{
+        background: colors.secondaryBackground,
+      }}
+    >
       <div className="flex flex-row items-center justify-between w-full md:w-[600px] pt-4 px-4">
-        <h1 className="text-start font-bold text-xl">
+        <h1
+          className="text-start font-bold text-xl"
+          style={{ color: colors.primaryText }}
+        >
           {tab === "me" ? "Your Smokes" : "Recent Smokes"}
         </h1>
         {!!reviews.records.length && <NewReviewButton />}

@@ -2,6 +2,7 @@
 
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import colors from "@/theme/colors";
 
 type Props = {
   text?: string;
@@ -10,7 +11,13 @@ type Props = {
 export default function NewReviewButton({ text = "New" }: Props) {
   const router = useRouter();
   return (
-    <Button color="primary" onPress={() => router.push("/create")}>
+    <Button
+      style={{
+        background: colors.accentColor,
+        color: colors.black,
+      }}
+      onPress={() => router.push("/create")}
+    >
       {text}
     </Button>
   );

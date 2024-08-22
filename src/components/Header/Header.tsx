@@ -13,8 +13,13 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/react";
 import { useState } from "react";
+import colors from "@/theme/colors";
 
-export default function Header() {
+type Props = {
+  height: number;
+};
+
+export default function Header({ height }: Props) {
   const { user, isLoaded } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -24,13 +29,22 @@ export default function Header() {
   ];
 
   return (
-    <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <Navbar
+      isBordered
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      style={{ background: colors.background, position: "absolute", height }}
+    >
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
       </NavbarContent>
-      <NavbarBrand>
-        <p className="font-bold">PUROS</p>
-      </NavbarBrand>
+      {!!user && (
+        <NavbarBrand>
+          <p className="font-bold" style={{ color: colors.primaryText }}>
+            PUROS
+          </p>
+        </NavbarBrand>
+      )}
       <NavbarContent justify="end">
         {user && isLoaded ? (
           <NavbarItem>
@@ -39,12 +53,27 @@ export default function Header() {
         ) : (
           <>
             <NavbarItem>
-              <Button as={Link} color="primary" href="/sign-in" variant="flat">
+              <Button
+                as={Link}
+                href="/sign-in"
+                variant="flat"
+                style={{
+                  color: colors.primaryText,
+                  backgroundColor: colors.secondaryBackground,
+                }}
+              >
                 Sign In
               </Button>
             </NavbarItem>
             <NavbarItem>
-              <Button as={Link} color="primary" href="/sign-up">
+              <Button
+                as={Link}
+                href="/sign-up"
+                style={{
+                  color: colors.black,
+                  backgroundColor: colors.accentColor,
+                }}
+              >
                 Sign Up
               </Button>
             </NavbarItem>
