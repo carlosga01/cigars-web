@@ -2,6 +2,7 @@
 
 import { Pagination } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import colors from "@/theme/colors";
 
 type Props = {
   numRecords: string;
@@ -23,6 +24,7 @@ export default function PaginationControls({ numRecords }: Props) {
       total={Math.ceil(Number(numRecords) / Number(pageSize))}
       initialPage={parseInt(page)}
       onChange={onChangeValue}
+      color="warning"
     />
   );
 }

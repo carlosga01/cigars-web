@@ -14,13 +14,14 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import colors from "@/theme/colors";
+import { usePathname } from "next/navigation";
 
-type Props = {
-  height: number;
-};
+export const HEADER_HEIGHT = 60;
+export const HEADER_NEGATIVE_MARGIN = -60;
 
-export default function Header({ height }: Props) {
+export default function Header() {
   const { user, isLoaded } = useUser();
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
@@ -28,22 +29,31 @@ export default function Header({ height }: Props) {
     { label: "All Reviews", href: "/home?tab=all" },
   ];
 
+  if (["/", "/sign-in", "/sign-up"].includes(pathname)) return null;
+
   return (
     <Navbar
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      style={{ background: colors.background, position: "absolute", height }}
+      style={{
+        background: colors.background,
+        position: "absolute",
+        height: HEADER_HEIGHT,
+      }}
     >
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          style={{ color: colors.primaryText }}
+        />
       </NavbarContent>
       {!!user && (
-        <NavbarBrand>
-          <p className="font-bold" style={{ color: colors.primaryText }}>
+        <NavbarContent justify="start" style={{ justifyContent: "center" }}>
+          <p className="font-bold text-center" style={{ color: colors.primaryText }}>
             PUROS
           </p>
-        </NavbarBrand>
+        </NavbarContent>
       )}
       <NavbarContent justify="end">
         {user && isLoaded ? (
@@ -80,10 +90,15 @@ export default function Header({ height }: Props) {
           </>
         )}
       </NavbarContent>
-      <NavbarMenu>
+      <NavbarMenu style={{ backgroundColor: colors.secondaryBackground }}>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item.label}-${index}`}>
-            <Link className="w-full" href={item.href} size="lg">
+            <Link
+              className="w-full"
+              href={item.href}
+              size="lg"
+              style={{ color: colors.primaryText }}
+            >
               {item.label}
             </Link>
           </NavbarMenuItem>

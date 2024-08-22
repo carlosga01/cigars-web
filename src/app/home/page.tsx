@@ -1,7 +1,7 @@
-import { HomeTabs, NewReviewButton, PaginationControls, ReviewCard } from "@/components";
+import { NewReviewButton, PaginationControls, ReviewCard } from "@/components";
 import { getXataClient } from "@/xata";
 import { auth } from "@clerk/nextjs";
-import { Button, Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/react";
 
 import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
@@ -42,10 +42,10 @@ export default async function HomePage({
     <div
       className="flex flex-col items-center"
       style={{
-        background: colors.secondaryBackground,
+        background: colors.background,
       }}
     >
-      <div className="flex flex-row items-center justify-between w-full md:w-[600px] pt-4 px-4">
+      <div className="flex flex-row items-center justify-between w-full md:w-[600px] pt-2 px-4">
         <h1
           className="text-start font-bold text-xl"
           style={{ color: colors.primaryText }}
@@ -54,7 +54,7 @@ export default async function HomePage({
         </h1>
         {!!reviews.records.length && <NewReviewButton />}
       </div>
-      <div className="flex flex-col gap-2 w-full md:w-[600px] p-4 mb-24">
+      <div className="flex flex-col gap-2 w-full md:w-[600px] p-2 mb-24">
         {!!reviews.records.length ? (
           reviews.records.map((review) => {
             return <ReviewCard key={review.id} reviewData={JSON.stringify(review)} />;

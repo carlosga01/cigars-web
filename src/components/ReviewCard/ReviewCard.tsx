@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
+import colors from "@/theme/colors";
 
 type Props = {
   reviewData: string;
@@ -42,54 +43,63 @@ export default function ReviewCard({ reviewData }: Props) {
   if (!review) return null;
 
   return (
-    <Card isPressable onPress={() => router.push(`/review/${review.id}`)}>
-      <CardHeader className="flex gap-3">
-        <div className="flex shrink-0 h-16 w-16 md:h-[150px] md:w-[150px]">
-          <Image
-            alt="Cigar image"
-            className="object-cover rounded-full h-16 w-16 md:h-[150px] md:w-[150px]"
-            src={review.images?.[0]?.url}
-          />
-        </div>
-        <div className="flex flex-col">
-          <p className="font-semibold">{review.cigar?.name}</p>
-          <p className="font-normal text-sm md:line-clamp-4 line-clamp-1 italic text-slate-500">
-            {review.reviewText}
+    <Card
+      isPressable
+      style={{
+        backgroundColor: colors.secondaryBackground,
+      }}
+      className="flex flex-row"
+      onPress={() => router.push(`/review/${review.id}`)}
+    >
+      <Image
+        alt="Cigar image"
+        className="object-cover  h-[50vw] w-[50vw] md:h-[150px] md:w-[150px]"
+        src={review.images?.[0]?.url}
+        disableSkeleton
+      />
+      <div className="flex flex-1 flex-col p-4 h-[50vw]" style={{ width: "100%" }}>
+        <div className="flex flex-col flex-1">
+          <p className="text-center" style={{ color: colors.primaryText }}>
+            {review.cigar?.name}
           </p>
+          <ReviewStars rating={review.rating} starDimension="6vw" />
         </div>
-      </CardHeader>
-
-      <Divider />
-
-      <CardFooter className="flex justify-between items-center">
-        <div className="flex flex-col">
-          <span className="text-[10px] font-medium text-slate-500">Smoked on</span>
-          <span className="text-sm font-semibold">
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row justify-end">
+            <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
+            <div className="text-xs ms-2" style={{ color: colors.primaryText }}>
+              {reviewUser?.id === user?.id
+                ? "You"
+                : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
+            </div>
+          </div>
+          <p className="text-xs italic self-end" style={{ color: colors.primaryText }}>
             {new Date(review.smokedOn).toLocaleString(undefined, {
               month: "short",
               day: "numeric",
               year: "numeric",
             })}
-          </span>
+          </p>
         </div>
-        <div className="flex flex-col">
-          <span className="text-[10px] font-medium text-slate-500">
-            Rating ({review.rating}){" "}
-          </span>
-          <ReviewStars rating={review.rating} />
-        </div>
-      </CardFooter>
+      </div>
 
-      <Divider />
-      <CardFooter className="flex flex-row justify-end">
-        <div className="text-xs text-slate-400 italic me-2">Reviewed by</div>
-        <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
-        <div className="text-xs text-slate-400 ms-2">
-          {reviewUser?.id === user?.id
-            ? "You"
-            : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
-        </div>
-      </CardFooter>
+      {/*<CardHeader className="flex gap-3">*/}
+      {/*  <div className="flex shrink-0 h-16 w-16 md:h-[150px] md:w-[150px]">*/}
+      {/*    <Image*/}
+      {/*      alt="Cigar image"*/}
+      {/*      className="object-cover rounded-full h-16 w-16 md:h-[150px] md:w-[150px]"*/}
+      {/*      src={review.images?.[0]?.url}*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*  <div className="flex flex-col">*/}
+      {/*    <p className="font-semibold">{review.cigar?.name}</p>*/}
+      {/*    <p className="font-normal text-sm md:line-clamp-4 line-clamp-1 italic text-slate-500">*/}
+      {/*      {review.reviewText}*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
+      {/*</CardHeader>*/}
+
+      {/*<Divider />*/}
     </Card>
   );
 }

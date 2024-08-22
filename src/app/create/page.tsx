@@ -16,6 +16,7 @@ import { useRef } from "react";
 import { useDebounce } from "use-debounce";
 import { CreateReviewPayload } from "../api/create/route";
 import { CreateCigarPayload } from "../api/cigar/route";
+import colors from "@/theme/colors";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -120,8 +121,20 @@ export default function CreatePage() {
     <div className="flex justify-center">
       <div className="flex flex-col justify-center w-full md:w-[600px] p-4 mb-16 gap-4">
         <div className="flex flex-row items-center justify-between w-full">
-          <h1 className="text-start font-bold text-xl">New Review</h1>
-          <Button color="danger" variant="flat" onPress={router.back}>
+          <h1
+            className="text-start font-bold text-xl"
+            style={{
+              color: colors.primaryText,
+            }}
+          >
+            New Review
+          </h1>
+          <Button
+            color="danger"
+            variant="flat"
+            onPress={router.back}
+            style={{ color: colors.black, backgroundColor: colors.errorColor }}
+          >
             Cancel
           </Button>
         </div>
@@ -145,13 +158,14 @@ export default function CreatePage() {
               })}
             </Autocomplete>
             <div className="flex flex-row items-center justify-center">
-              <div className="text-slate-600 italic  mr-4">
+              <div className="italic  mr-4" style={{ color: colors.secondaryText }}>
                 Don&apos;t see your cigar?
               </div>
               <Button
                 color="primary"
                 variant="bordered"
                 onPress={() => setCustomCigar(true)}
+                style={{ borderColor: colors.accentColor, color: colors.accentColor }}
               >
                 Add it
               </Button>
@@ -187,13 +201,19 @@ export default function CreatePage() {
               onChange={(e) => setImage(e.target.files?.[0])}
               className="hidden"
             />
-            <div className="flex justify-center items-center h-48 w-48 rounded-full bg-gray-100 p-4 text-center text-sm text-gray-500">
+            <div
+              className="flex justify-center items-center h-48 w-48 rounded-full p-4 text-center text-sm"
+              style={{
+                backgroundColor: colors.secondaryBackground,
+                color: colors.primaryText,
+              }}
+            >
               Upload a photo of your cigar. Center the label in the image.
             </div>
             <Button
-              color="primary"
               className="ms-4"
               onPress={() => fileInput.current?.click()}
+              style={{ color: colors.black, backgroundColor: colors.accentColor }}
             >
               Upload
             </Button>
@@ -215,10 +235,10 @@ export default function CreatePage() {
           />
         </div>
         <Button
-          color="primary"
           onPress={onSave}
           isLoading={isSaving}
           isDisabled={!saveEnabled}
+          style={{ color: colors.black, backgroundColor: colors.accentColor }}
         >
           Save
         </Button>
