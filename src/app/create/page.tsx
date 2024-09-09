@@ -141,7 +141,7 @@ export default function CreatePage() {
         </div>
         {customCigar ? (
           <>
-            <Input label="Cigar name" onValueChange={setCustomCigarName} />
+            <Input label="Cigar name" onValueChange={setCustomCigarName} size="lg" />
           </>
         ) : (
           <>
