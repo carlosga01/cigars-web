@@ -5,12 +5,10 @@ import Image from "next/image";
 import { UserButton, useUser } from "@clerk/nextjs";
 import {
   Navbar,
-  NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link,
   Button,
-  NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/react";
@@ -51,10 +49,10 @@ export default function Header() {
       }}
     >
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle
+        {/* <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           style={{ color: colors.primaryText }}
-        />
+        /> */}
       </NavbarContent>
       {!!user && (
         <NavbarContent justify="start" style={{ justifyContent: "center" }}>

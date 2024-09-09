@@ -85,9 +85,6 @@ export default async function HomePage({
           <div className="text-md text-center text-slate-600">
             You have not reviewed any cigars yet
           </div>
-          <div>
-            <NewReviewButton text="Start a review" />
-          </div>
         </div>
       ) : (
         <div className="flex w-full justify-center">
