@@ -8,6 +8,9 @@ const colors = {
   errorColor: "#F25C54",
   highlight: "#3E8EED",
   black: "#000000",
+  white10: "#ECECEC10",
+  white20: "#ECECEC20",
+  white50: "#FFFFFF",
 };
 
 export default colors;

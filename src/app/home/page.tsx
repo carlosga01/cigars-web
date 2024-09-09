@@ -12,7 +12,7 @@ export default async function HomePage({
   searchParams: { page?: string; pageSize?: string; tab?: "me" | "all" };
 }) {
   const page = searchParams.page ?? "1";
-  const pageSize = searchParams.pageSize ?? "5";
+  const pageSize = searchParams.pageSize ?? "10";
   const tab = searchParams.tab ?? "all";
 
   const { userId } = auth();
@@ -40,47 +40,36 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center"
+      className="flex flex-col items-center gap-2 w-full p-2 pb-6"
       style={{
-        background: colors.background,
+        backgroundColor: colors.black,
       }}
     >
-      <div className="flex flex-row items-center justify-between w-full md:w-[600px] pt-2 px-4">
-        <h1
-          className="text-start font-bold text-xl"
-          style={{ color: colors.primaryText }}
-        >
-          {tab === "me" ? "Your Smokes" : "Recent Smokes"}
-        </h1>
-        {!!reviews.records.length && <NewReviewButton />}
-      </div>
-      <div className="flex flex-col gap-2 w-full md:w-[600px] p-2 mb-24">
-        {!!reviews.records.length ? (
-          reviews.records.map((review) => {
-            return <ReviewCard key={review.id} reviewData={JSON.stringify(review)} />;
-          })
-        ) : reviews.records.length === 0 ? (
-          <div className="flex flex-col gap-4 mt-8 items-center">
-            <div className="text-md text-center text-slate-600">
-              You have not reviewed any cigars yet
-            </div>
-            <div>
-              <NewReviewButton text="Start a review" />
-            </div>
+      {!!reviews.records.length ? (
+        reviews.records.map((review) => {
+          return <ReviewCard key={review.id} reviewData={JSON.stringify(review)} />;
+        })
+      ) : reviews.records.length === 0 ? (
+        <div className="flex flex-col gap-4 mt-8 items-center">
+          <div className="text-md text-center text-slate-600">
+            You have not reviewed any cigars yet
           </div>
-        ) : (
-          <div className="flex w-full justify-center">
-            <Spinner size="lg" />
+          <div>
+            <NewReviewButton text="Start a review" />
           </div>
-        )}
-        {!!reviews.records.length && (
-          <div className="flex justify-center w-full md:w-[600px] px-4 pt-4">
-            <PaginationControls
-              numRecords={numReviews.summaries[0].all_reviews.toString()}
-            />
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="flex w-full justify-center">
+          <Spinner size="lg" />
+        </div>
+      )}
+      {!!reviews.records.length && (
+        <div className="flex justify-center w-full md:w-[600px] px-4 pt-4">
+          <PaginationControls
+            numRecords={numReviews.summaries[0].all_reviews.toString()}
+          />
+        </div>
+      )}
     </div>
   );
 }

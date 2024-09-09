@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.28.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.0.2",
     "@nextui-org/react": "^2.2.9",
     "@xata.io/client": "^0.28.0",
     "axios": "^1.6.2",

@@ -16,31 +16,33 @@ export default function LandingPage() {
 
   return (
     <main
-      className="relative flex items-center justify-center max-h-screen"
-      style={{ marginTop: HEADER_NEGATIVE_MARGIN, background: colors.background }}
+      className="w-screen h-[100dvh] overflow-hidden relative"
+      style={{ background: colors.background, marginTop: HEADER_NEGATIVE_MARGIN }}
     >
       <Image
         priority
         src={Background}
         alt="background"
-        className="w-full h-screen object-cover opacity-25"
+        layout="fill"
+        objectFit="cover"
+        className="opacity-25"
       />
-      <div className="flex flex-col	 gap-y-[1rem] absolute">
-        <div>
+      <div className="h-full flex flex-col gap-y-[1rem] items-center justify-center px-4">
+        <div className="text-center">
           <h1
-            className="font-bold text-center text-[4rem]"
+            className="font-bold text-4xl sm:text-5xl md:text-[4rem]"
             style={{ color: colors.primaryText }}
           >
             PUROS
           </h1>
           <p
-            className="font-normal text-center text-[1.5rem]"
+            className="font-normal text-lg sm:text-xl md:text-[1.5rem]"
             style={{ color: colors.primaryText }}
           >
-            Everything cigars.
+            A cigar log for cigar enthusiasts.
           </p>
         </div>
-        <div className="flex justify-center gap-x-[1rem]">
+        <div className="flex justify-center gap-x-4">
           <Button
             as={Link}
             href="/sign-in"

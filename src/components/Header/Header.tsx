@@ -25,8 +25,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
-    { label: "My Reviews", href: "/home?tab=me" },
-    { label: "All Reviews", href: "/home?tab=all" },
+    { label: "Start a review", href: "/create" },
+    { label: "My reviews", href: "/home?tab=me" },
+    { label: "All reviews", href: "/home?tab=all" },
   ];
 
   if (["/", "/sign-in", "/sign-up"].includes(pathname)) return null;
@@ -38,8 +39,12 @@ export default function Header() {
       onMenuOpenChange={setIsMenuOpen}
       style={{
         background: colors.background,
-        position: "absolute",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
         height: HEADER_HEIGHT,
+        zIndex: 1000,
       }}
     >
       <NavbarContent className="sm:hidden" justify="start">
@@ -56,7 +61,7 @@ export default function Header() {
         </NavbarContent>
       )}
       <NavbarContent justify="end">
-        {user && isLoaded ? (
+        {!isLoaded ? null : user ? (
           <NavbarItem>
             <UserButton afterSignOutUrl="/" />
           </NavbarItem>

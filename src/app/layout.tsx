@@ -11,7 +11,7 @@ const robotoFlex = Roboto_Flex({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Puros",
-  description: "TODO",
+  description: "A cigar log for cigar enthusiasts.",
 };
 
 // <link rel="apple-touch-icon" href="/custom_icon.png"/>
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ClerkProvider>
       <Providers>
-        <html lang="en">
+        <html lang="en" className="overscroll-none">
           <head>
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta
@@ -31,12 +31,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <meta name="theme-color" content={colors.background} />
             <title>Puros</title>
           </head>
-          <body
-            className={robotoFlex.className + " min-h-screen"}
-            style={{ marginTop: HEADER_HEIGHT }}
-          >
+          <body className={robotoFlex.className}>
             <Header />
-            <div>{children}</div>
+            <div style={{ marginTop: HEADER_HEIGHT, backgroundColor: colors.background }}>
+              {children}
+            </div>
           </body>
         </html>
       </Providers>

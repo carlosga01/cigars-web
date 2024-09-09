@@ -1,13 +1,13 @@
 "use client";
 
 import { ReviewsRecord } from "@/xata";
-import { Card, CardHeader, CardFooter, Image, Divider } from "@nextui-org/react";
-import { ReviewStars } from "..";
+import { Card, Image } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import colors from "@/theme/colors";
+import { Rating } from "@mui/material";
 
 type Props = {
   reviewData: string;
@@ -46,9 +46,9 @@ export default function ReviewCard({ reviewData }: Props) {
     <Card
       isPressable
       style={{
-        backgroundColor: colors.secondaryBackground,
+        backgroundColor: colors.white20,
       }}
-      className="flex flex-row"
+      className="flex flex-row w-full"
       onPress={() => router.push(`/review/${review.id}`)}
     >
       <Image
@@ -62,15 +62,23 @@ export default function ReviewCard({ reviewData }: Props) {
           <p className="text-center" style={{ color: colors.primaryText }}>
             {review.cigar?.name}
           </p>
-          <ReviewStars rating={review.rating} starDimension="6vw" />
+          <Rating
+            name="half-rating-read"
+            defaultValue={review.rating}
+            precision={0.5}
+            className="self-center"
+            readOnly
+          />
         </div>
         <div className="flex flex-col gap-1">
           <div className="flex flex-row justify-end">
             <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
             <div className="text-xs ms-2" style={{ color: colors.primaryText }}>
-              {reviewUser?.id === user?.id
-                ? "You"
-                : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
+              {!user || !reviewUser
+                ? "Loading..."
+                : reviewUser?.id === user?.id
+                  ? "You"
+                  : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
             </div>
           </div>
           <p className="text-xs italic self-end" style={{ color: colors.primaryText }}>
@@ -82,24 +90,6 @@ export default function ReviewCard({ reviewData }: Props) {
           </p>
         </div>
       </div>
-
-      {/*<CardHeader className="flex gap-3">*/}
-      {/*  <div className="flex shrink-0 h-16 w-16 md:h-[150px] md:w-[150px]">*/}
-      {/*    <Image*/}
-      {/*      alt="Cigar image"*/}
-      {/*      className="object-cover rounded-full h-16 w-16 md:h-[150px] md:w-[150px]"*/}
-      {/*      src={review.images?.[0]?.url}*/}
-      {/*    />*/}
-      {/*  </div>*/}
-      {/*  <div className="flex flex-col">*/}
-      {/*    <p className="font-semibold">{review.cigar?.name}</p>*/}
-      {/*    <p className="font-normal text-sm md:line-clamp-4 line-clamp-1 italic text-slate-500">*/}
-      {/*      {review.reviewText}*/}
-      {/*    </p>*/}
-      {/*  </div>*/}
-      {/*</CardHeader>*/}
-
-      {/*<Divider />*/}
     </Card>
   );
 }

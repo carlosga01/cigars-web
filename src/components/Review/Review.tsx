@@ -1,19 +1,17 @@
 "use client";
 
 import { ReviewsRecord } from "@/xata";
-import { Button, Image } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import ReviewStars from "../ReviewStars";
 import colors from "@/theme/colors";
+import { Rating } from "@mui/material";
 
 type Props = {
   review: string;
 };
 
 export default function Review({ review }: Props) {
-  const router = useRouter();
-
   const [data, setData] = useState<ReviewsRecord>();
 
   useEffect(() => {
@@ -23,12 +21,7 @@ export default function Review({ review }: Props) {
   if (!data) return null;
 
   return (
-    <div className="container p-4 flex flex-col items-center justify-center">
-      <div className="flex flex-row items-center justify-between w-full">
-        <Button style={{ backgroundColor: colors.accentColor }} onPress={router.back}>
-          Back
-        </Button>
-      </div>
+    <div className="p-4 flex flex-col items-center h-[100dvh]">
       <div
         className="text-center m-2 font-bold text-xl"
         style={{ color: colors.primaryText }}
@@ -52,7 +45,13 @@ export default function Review({ review }: Props) {
         />
       )}
       <div className="flex flex-col mb-4">
-        <ReviewStars rating={data.rating} starDimension="48" />
+        <Rating
+          name="half-rating-read"
+          defaultValue={data.rating}
+          precision={0.5}
+          className="self-center"
+          readOnly
+        />
       </div>
       <div className="text-center" style={{ color: colors.primaryText }}>
         {data.reviewText}

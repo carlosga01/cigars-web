@@ -17,6 +17,7 @@ import { useDebounce } from "use-debounce";
 import { CreateReviewPayload } from "../api/create/route";
 import { CreateCigarPayload } from "../api/cigar/route";
 import colors from "@/theme/colors";
+import { Rating } from "@mui/material";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -56,6 +57,7 @@ export default function CreatePage() {
     } else {
       setCigars([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   useEffect(() => {
@@ -227,11 +229,24 @@ export default function CreatePage() {
           className="text-base"
           size="lg"
         />
-        <div className="flex justify-center">
-          <ReviewStars
-            rating={record.rating}
-            changeRating={(rating) => setRecord((prev) => ({ ...prev, rating }))}
-            starDimension="48px"
+        <div className="flex flex-row justify-center">
+          <Rating
+            name="simple-controlled"
+            precision={0.5}
+            className="self-center"
+            value={record.rating}
+            defaultValue={5}
+            onChange={(_, newValue) => {
+              if (newValue) {
+                setRecord((prev) => ({ ...prev, rating: newValue }));
+              }
+            }}
+            onChangeActive={(_, newValue) => {
+              if (newValue) {
+                setRecord((prev) => ({ ...prev, rating: newValue }));
+              }
+            }}
+            size="large"
           />
         </div>
         <Button
