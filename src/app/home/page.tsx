@@ -1,4 +1,4 @@
-import { NewReviewButton, PaginationControls, ReviewCard } from "@/components";
+import { HomeTabs, NewReviewButton, PaginationControls, ReviewCard } from "@/components";
 import { getXataClient } from "@/xata";
 import { auth } from "@clerk/nextjs";
 import { Spinner } from "@nextui-org/react";
@@ -41,12 +41,15 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] px-1 py-6"
+      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] px-1 pt-4 pb-16"
       style={{
         backgroundColor: colors.black,
       }}
     >
-      <NewReviewButton />
+      <div className="flex flex-row justify-evenly w-full items-center">
+        <HomeTabs tab={tab} />
+        <NewReviewButton />
+      </div>
       {!!reviews.records.length ? (
         <>
           {reviews.records.reduce((acc, review, index, array) => {

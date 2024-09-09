@@ -1,34 +1,24 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { Tabs, Tab } from "@nextui-org/tabs";
 
 type Props = {
   tab?: "me" | "all";
 };
 
 export default function HomeTabs({ tab }: Props) {
-  const router = useRouter();
-
   return (
-    <div className="flex px-4 pt-4 w-full flex-row justify-items-start">
-      {tab === "me" ? (
-        <Button
-          variant="flat"
-          color="secondary"
-          onPress={() => router.push("/home?tab=all")}
-        >
-          See All Reviews
-        </Button>
-      ) : (
-        <Button
-          variant="flat"
-          color="secondary"
-          onPress={() => router.push("/home?tab=me")}
-        >
-          See My Reviews
-        </Button>
-      )}
+    <div className="flex flex-col">
+      <Tabs
+        aria-label="Review types"
+        selectedKey={tab}
+        variant="bordered"
+        color="default"
+        size="md"
+      >
+        <Tab key="me" title="My Reviews" href="/home?tab=me"></Tab>
+        <Tab key="all" title="All reviews" href="/home?tab=all"></Tab>
+      </Tabs>
     </div>
   );
 }
