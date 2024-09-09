@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { UserButton, useUser } from "@clerk/nextjs";
 import {
   Navbar,
@@ -14,12 +16,14 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import colors from "@/theme/colors";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Puros from "/public/images/puros-white.png";
 
 export const HEADER_HEIGHT = 60;
 export const HEADER_NEGATIVE_MARGIN = -60;
 
 export default function Header() {
+  const router = useRouter();
   const { user, isLoaded } = useUser();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,9 +58,18 @@ export default function Header() {
       </NavbarContent>
       {!!user && (
         <NavbarContent justify="start" style={{ justifyContent: "center" }}>
-          <p className="font-bold text-center" style={{ color: colors.primaryText }}>
-            PUROS
-          </p>
+          <button onClick={() => router.push("/home")}>
+            <Image
+              alt="Puros"
+              src={Puros}
+              style={{
+                height: HEADER_HEIGHT - 32,
+                aspectRatio: "2.75",
+                objectFit: "contain",
+                width: "auto",
+              }}
+            />
+          </button>
         </NavbarContent>
       )}
       <NavbarContent justify="end">

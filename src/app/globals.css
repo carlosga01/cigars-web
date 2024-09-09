@@ -5,6 +5,7 @@
 body {
   overscroll-behavior: none;
   background-color: #202123;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

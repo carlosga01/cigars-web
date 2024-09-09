@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
 import { Button, Link } from "@nextui-org/react";
 import { HEADER_NEGATIVE_MARGIN } from "@/components/Header";
+import Puros from "/public/images/puros-white.png";
 
 export default function LandingPage() {
   const { userId } = auth();
@@ -25,21 +26,26 @@ export default function LandingPage() {
         alt="background"
         layout="fill"
         objectFit="cover"
-        className="opacity-25"
+        className="opacity-25 z-0"
       />
-      <div className="h-full flex flex-col gap-y-[1rem] items-center justify-center px-4">
+
+      <div className="h-full flex flex-col gap-y-[1rem] items-center justify-center px-4 z-10 relative">
         <div className="text-center">
-          <h1
-            className="font-bold text-4xl sm:text-5xl md:text-[4rem]"
-            style={{ color: colors.primaryText }}
-          >
-            PUROS
-          </h1>
+          <Image
+            alt="Puros"
+            src={Puros}
+            style={{
+              width: "75vw",
+              aspectRatio: "2.75",
+              objectFit: "contain",
+              height: "auto",
+            }}
+          />
           <p
             className="font-normal text-lg sm:text-xl md:text-[1.5rem]"
             style={{ color: colors.primaryText }}
           >
-            A cigar log for cigar enthusiasts.
+            The cigar app
           </p>
         </div>
         <div className="flex justify-center gap-x-4">
@@ -50,6 +56,7 @@ export default function LandingPage() {
             style={{
               color: colors.primaryText,
               backgroundColor: colors.secondaryBackground,
+              fontWeight: "bold",
             }}
           >
             Sign In
@@ -61,6 +68,7 @@ export default function LandingPage() {
             style={{
               color: colors.black,
               backgroundColor: colors.accentColor,
+              fontWeight: "bold",
             }}
           >
             Sign Up
