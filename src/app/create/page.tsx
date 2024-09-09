@@ -1,6 +1,6 @@
 "use client";
 
-import { CigarsRecord } from "@/xata";
+import { CigarsRecord, ReviewsRecord } from "@/xata";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -10,21 +10,27 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { useDebounce } from "use-debounce";
 import { CreateReviewPayload } from "../api/create/route";
 import { CreateCigarPayload } from "../api/cigar/route";
 import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
+import { blob } from "stream/consumers";
 
 export default function CreatePage() {
   const router = useRouter();
   const fileInput = useRef<HTMLInputElement>(null);
 
+  const searchParams = useSearchParams();
+  const mode = searchParams.get("mode") ?? "create";
+  const reviewId = searchParams.get("reviewId") ?? "";
+
   const [isSaving, setIsSaving] = useState(false);
 
   const [record, setRecord] = useState<CreateReviewPayload>({
+    reviewId: "",
     cigarId: "",
     review: "",
     rating: 5,
@@ -71,51 +77,101 @@ export default function CreatePage() {
     }
   }, [image]);
 
+  useEffect(() => {
+    if (mode === "edit") {
+      const fetchData = async () => {
+        const result = await fetch(`/api/review?reviewId=${reviewId}`);
+        const review = (await result.json()) as { data: ReviewsRecord };
+        setRecord({
+          reviewId: review.data.id,
+          cigarId: review.data.cigar?.id ?? "",
+          rating: review.data.rating,
+          review: review.data.reviewText ?? "",
+        });
+        setCigarSearch(review.data.cigar?.name ?? "");
+        if (review.data.images) {
+          setImageSrc(review.data.images[0].url ?? "");
+        }
+      };
+      fetchData();
+    }
+  }, [mode, reviewId]);
+
   const saveEnabled = useMemo(
     () =>
       (!!record.cigarId || !!customCigarName.length) &&
       !!record.rating &&
       !!record.review &&
-      !!image,
-    [record, image, customCigarName],
+      (!!image || !!imageSrc),
+    [record, image, customCigarName, imageSrc],
   );
 
   const onSave = async () => {
-    if (!image) return;
+    if (!image && !imageSrc) return;
     setIsSaving(true);
 
-    if (customCigar && customCigarName.length) {
-      const newCigar = await fetch("/api/cigar", {
-        method: "POST",
-        body: JSON.stringify({
-          name: customCigarName,
-        } as CreateCigarPayload),
-      });
-      const newCigarJson = await newCigar.json();
-      const cigarId = newCigarJson.data.id;
+    if (mode === "edit") {
+      if (customCigar && customCigarName.length) {
+        const newCigar = await fetch("/api/cigar", {
+          method: "POST",
+          body: JSON.stringify({
+            name: customCigarName,
+          } as CreateCigarPayload),
+        });
+        const newCigarJson = await newCigar.json();
+        const cigarId = newCigarJson.data.id;
 
-      await fetch("/api/create", {
-        method: "POST",
-        body: JSON.stringify({
-          ...record,
-          cigarId,
-          image,
-          imageBase64: imageSrc,
-        } as CreateReviewPayload),
-      });
+        await fetch("/api/create", {
+          method: "PUT",
+          body: JSON.stringify({
+            ...record,
+            cigarId,
+            ...(image ? { image, imageBase64: imageSrc } : {}),
+          } as CreateReviewPayload),
+        });
+      } else {
+        await fetch("/api/create", {
+          method: "PUT",
+          body: JSON.stringify({
+            ...record,
+            ...(image ? { image, imageBase64: imageSrc } : {}),
+          } as CreateReviewPayload),
+        });
+      }
     } else {
-      await fetch("/api/create", {
-        method: "POST",
-        body: JSON.stringify({
-          ...record,
-          image,
-          imageBase64: imageSrc,
-        } as CreateReviewPayload),
-      });
-    }
+      if (customCigar && customCigarName.length) {
+        const newCigar = await fetch("/api/cigar", {
+          method: "POST",
+          body: JSON.stringify({
+            name: customCigarName,
+          } as CreateCigarPayload),
+        });
+        const newCigarJson = await newCigar.json();
+        const cigarId = newCigarJson.data.id;
 
+        await fetch("/api/create", {
+          method: "POST",
+          body: JSON.stringify({
+            ...record,
+            cigarId,
+            image,
+            imageBase64: imageSrc,
+          } as CreateReviewPayload),
+        });
+      } else {
+        await fetch("/api/create", {
+          method: "POST",
+          body: JSON.stringify({
+            ...record,
+            image,
+            imageBase64: imageSrc,
+          } as CreateReviewPayload),
+        });
+      }
+    }
     setIsSaving(false);
     router.push("/home");
+    router.refresh();
   };
 
   return (
@@ -147,12 +203,14 @@ export default function CreatePage() {
           <>
             <Autocomplete
               label="Cigar"
-              placeholder="Search for a cigar"
+              placeholder={cigarSearch ? cigarSearch : "Search for a cigar"}
               onInputChange={setCigarSearch}
               onSelectionChange={(k) =>
                 setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
               }
               size="lg"
+              defaultSelectedKey={record.cigarId}
+              defaultInputValue={cigarSearch}
             >
               {cigars.map((cigar) => {
                 return <AutocompleteItem key={cigar.id}>{cigar.name}</AutocompleteItem>;
@@ -224,6 +282,7 @@ export default function CreatePage() {
         <Textarea
           label="Review"
           placeholder="Enter your review"
+          value={record.review}
           onValueChange={(review) => setRecord((prev) => ({ ...prev, review }))}
           className="text-base"
           size="lg"

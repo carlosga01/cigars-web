@@ -7,12 +7,16 @@ import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
+import { Button } from "../base";
+import { useRouter } from "next/navigation";
 
 type Props = {
   review: string;
 };
 
 export default function Review({ review }: Props) {
+  const router = useRouter();
+
   const { user } = useUser();
   const [data, setData] = useState<ReviewsRecord>();
   const [reviewUser, setReviewUser] = useState<User>();
@@ -85,6 +89,18 @@ export default function Review({ review }: Props) {
       <div className="text-center" style={{ color: colors.primaryText }}>
         {data.reviewText}
       </div>
+      {user?.id === reviewUser?.id && (
+        <Button
+          text="Edit"
+          className="w-full mt-8"
+          style={{
+            backgroundColor: colors.accentColor,
+          }}
+          onClick={() => {
+            router.push(`/create/?reviewId=${data.id}&mode=edit`);
+          }}
+        />
+      )}
     </div>
   );
 }
