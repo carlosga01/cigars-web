@@ -5,6 +5,7 @@ import { Spinner } from "@nextui-org/react";
 
 import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
+import React from "react";
 
 export default async function HomePage({
   searchParams,
@@ -40,16 +41,42 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center gap-2 w-full p-2 pb-6"
+      className="flex flex-col items-center gap-1 w-full px-1 py-6"
       style={{
         backgroundColor: colors.black,
       }}
     >
       <NewReviewButton />
       {!!reviews.records.length ? (
-        reviews.records.map((review) => {
-          return <ReviewCard key={review.id} reviewData={JSON.stringify(review)} />;
-        })
+        <>
+          {reviews.records.reduce((acc, review, index, array) => {
+            const currentDate = new Date(review.smokedOn);
+            const currentMonth = currentDate.toLocaleString("default", { month: "long" });
+            const currentYear = currentDate.getFullYear();
+
+            if (
+              index === 0 ||
+              currentMonth !==
+                new Date(array[index - 1].smokedOn).toLocaleString("default", {
+                  month: "long",
+                }) ||
+              currentYear !== new Date(array[index - 1].smokedOn).getFullYear()
+            ) {
+              acc.push(
+                <div
+                  key={`${currentMonth}-${currentYear}`}
+                  className="w-full font-bold mt-4"
+                  style={{ color: colors.primaryText }}
+                >
+                  {`${currentMonth} ${currentYear}`}
+                </div>,
+              );
+            }
+
+            acc.push(<ReviewCard key={review.id} reviewData={JSON.stringify(review)} />);
+            return acc;
+          }, [] as React.JSX.Element[])}
+        </>
       ) : reviews.records.length === 0 ? (
         <div className="flex flex-col gap-4 mt-8 items-center">
           <div className="text-md text-center text-slate-600">

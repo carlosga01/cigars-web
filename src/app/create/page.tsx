@@ -17,7 +17,6 @@ import { CreateReviewPayload } from "../api/create/route";
 import { CreateCigarPayload } from "../api/cigar/route";
 import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
-import { blob } from "stream/consumers";
 
 export default function CreatePage() {
   const router = useRouter();

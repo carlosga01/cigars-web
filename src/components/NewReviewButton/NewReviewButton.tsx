@@ -13,7 +13,6 @@ export default function NewReviewButton({ text }: Props) {
   return (
     <Button
       text={text ?? "New review"}
-      className="w-full"
       style={{ backgroundColor: colors.accentColor }}
       onClick={() => router.push("/create")}
     />
