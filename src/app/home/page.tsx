@@ -41,7 +41,7 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center gap-1 w-full px-1 py-6"
+      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] px-1 py-6"
       style={{
         backgroundColor: colors.black,
       }}
@@ -73,7 +73,7 @@ export default async function HomePage({
               );
             }
 
-            acc.push(<ReviewCard key={review.id} reviewData={JSON.stringify(review)} />);
+            acc.push(<ReviewCard reviewData={JSON.stringify(review)} index={index} />);
             return acc;
           }, [] as React.JSX.Element[])}
         </>

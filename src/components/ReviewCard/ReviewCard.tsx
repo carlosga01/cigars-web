@@ -8,12 +8,14 @@ import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
+import { motion } from "framer-motion";
 
 type Props = {
   reviewData: string;
+  index: number;
 };
 
-export default function ReviewCard({ reviewData }: Props) {
+export default function ReviewCard({ reviewData, index }: Props) {
   const router = useRouter();
   const { user } = useUser();
 
@@ -43,57 +45,68 @@ export default function ReviewCard({ reviewData }: Props) {
   if (!review) return null;
 
   return (
-    <Card
-      isPressable
-      style={{
-        backgroundColor: colors.white20,
-      }}
-      className="flex flex-row w-full"
-      onPress={() => router.push(`/review/${review.id}`)}
+    <motion.div
+      key={review.id}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+      className="w-full"
     >
-      <Image
-        alt="Cigar image"
-        className="object-cover h-[100px] w-[100px] flex-shrink-0 mr-2"
-        src={review.images?.[0]?.url}
-        disableSkeleton
-      />
-      <div className="flex flex-1 flex-col p-2 h-[100px] overflow-hidden justify-between">
-        <p
-          className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md"
-          style={{ color: colors.primaryText }}
-        >
-          {review.cigar?.name}
-        </p>
-        <div className="flex flex-row justify-between">
-          <Rating
-            name="half-rating-read"
-            defaultValue={review.rating}
-            precision={0.5}
-            className="self-center"
-            readOnly
-          />
+      <Card
+        isPressable
+        style={{
+          backgroundColor: colors.white20,
+        }}
+        className="flex flex-row w-full"
+        onPress={() => router.push(`/review/${review.id}`)}
+      >
+        <Image
+          alt="Cigar image"
+          className="object-cover h-[100px] w-[100px] flex-shrink-0 mr-2"
+          src={review.images?.[0]?.url}
+          disableSkeleton
+        />
+        <div className="flex flex-1 flex-col p-2 h-[100px] overflow-hidden justify-between">
+          <p
+            className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md"
+            style={{ color: colors.primaryText }}
+          >
+            {review.cigar?.name}
+          </p>
+          <div className="flex flex-row justify-between">
+            <Rating
+              name="half-rating-read"
+              defaultValue={review.rating}
+              precision={0.5}
+              className="self-center"
+              readOnly
+            />
 
-          <div className="flex flex-col gap-1">
-            <div className="flex flex-row justify-end">
-              <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
-              <div className="text-xs ms-2" style={{ color: colors.primaryText }}>
-                {!user || !reviewUser
-                  ? "Loading..."
-                  : reviewUser?.id === user?.id
-                    ? "You"
-                    : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-row justify-end">
+                <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
+                <div className="text-xs ms-2" style={{ color: colors.primaryText }}>
+                  {!user || !reviewUser
+                    ? "Loading..."
+                    : reviewUser?.id === user?.id
+                      ? "You"
+                      : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
+                </div>
               </div>
+              <p
+                className="text-xs italic self-end"
+                style={{ color: colors.primaryText }}
+              >
+                {new Date(review.smokedOn).toLocaleString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </p>
             </div>
-            <p className="text-xs italic self-end" style={{ color: colors.primaryText }}>
-              {new Date(review.smokedOn).toLocaleString(undefined, {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </p>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
