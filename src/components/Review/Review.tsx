@@ -44,7 +44,12 @@ export default function Review({ review }: Props) {
   if (!data) return null;
 
   return (
-    <div className="p-4 flex flex-col items-center h-[100dvh]">
+    <div
+      className="p-4 flex flex-col items-center h-[100dvh]"
+      style={{
+        backgroundColor: colors.black,
+      }}
+    >
       <Button
         text="Back"
         onClick={() => router.back()}

@@ -174,7 +174,12 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="flex justify-center">
+    <div
+      className="flex justify-center"
+      style={{
+        backgroundColor: colors.black,
+      }}
+    >
       <div className="flex flex-col justify-center w-full md:w-[600px] p-4 mb-16 gap-4">
         <div className="flex flex-row items-center justify-between w-full">
           <h1
