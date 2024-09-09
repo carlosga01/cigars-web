@@ -10,7 +10,6 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
-import { ReviewStars } from "@/components";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useDebounce } from "use-debounce";
@@ -28,7 +27,7 @@ export default function CreatePage() {
   const [record, setRecord] = useState<CreateReviewPayload>({
     cigarId: "",
     review: "",
-    rating: 0,
+    rating: 5,
   });
 
   const [cigarSearch, setCigarSearch] = useState("");
@@ -229,25 +228,65 @@ export default function CreatePage() {
           className="text-base"
           size="lg"
         />
-        <div className="flex flex-row justify-center">
-          <Rating
-            name="simple-controlled"
-            precision={0.5}
-            className="self-center"
-            value={record.rating}
-            defaultValue={5}
-            onChange={(_, newValue) => {
-              if (newValue) {
-                setRecord((prev) => ({ ...prev, rating: newValue }));
-              }
+        <div>
+          <p
+            className=" text-center font-bold text-l"
+            style={{
+              color: colors.primaryText,
             }}
-            onChangeActive={(_, newValue) => {
-              if (newValue) {
-                setRecord((prev) => ({ ...prev, rating: newValue }));
-              }
-            }}
-            size="large"
-          />
+          >
+            Overall rating ({record.rating})
+          </p>
+          <div className="flex flex-row items-center justify-evenly">
+            <Button
+              onPress={() => {
+                const newRating = Math.max(0, record.rating - 0.5);
+                setRecord((prev) => ({ ...prev, rating: newRating }));
+              }}
+              style={{
+                color: colors.primaryText,
+                backgroundColor: colors.highlight,
+                width: "40px",
+                height: "40px",
+                minWidth: "40px",
+                padding: 0,
+              }}
+              className="text-4xl font-bold"
+            >
+              -
+            </Button>
+            <Rating
+              name="simple-controlled"
+              precision={0.5}
+              className="self-center mx-2"
+              value={record.rating}
+              defaultValue={5}
+              max={5}
+              onChange={(_, newValue) => {
+                if (newValue) {
+                  setRecord((prev) => ({ ...prev, rating: newValue }));
+                }
+              }}
+              size="large"
+            />
+            <Button
+              onPress={() => {
+                const newRating = Math.min(5, record.rating + 0.5);
+                setRecord((prev) => ({ ...prev, rating: newRating }));
+              }}
+              style={{
+                color: colors.primaryText,
+                backgroundColor: colors.highlight,
+                width: "40px",
+                height: "40px",
+                minWidth: "40px",
+                padding: 0,
+              }}
+              className="text-4xl font-bold"
+            >
+              +
+            </Button>
+          </div>
         </div>
         <Button
           onPress={onSave}
