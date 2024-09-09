@@ -5,7 +5,6 @@ import { Spinner } from "@nextui-org/react";
 
 import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
-import { Button } from "@/components/base";
 
 export default async function HomePage({
   searchParams,

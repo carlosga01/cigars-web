@@ -14,9 +14,6 @@ export const metadata: Metadata = {
   description: "A cigar log for cigar enthusiasts.",
 };
 
-// <link rel="apple-touch-icon" href="/custom_icon.png"/>
-// <link rel="apple-touch-startup-image" href="/startup.png">
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
@@ -33,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name="viewport"
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             <title>Puros</title>
           </head>
           <body className={robotoFlex.className}>
