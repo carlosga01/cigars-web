@@ -31,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+            <link rel="manifest" href="/site.webmanifest" />
             <title>Puros</title>
           </head>
           <body className={robotoFlex.className}>
