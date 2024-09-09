@@ -1,24 +1,21 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import colors from "@/theme/colors";
+import { Button } from "../base";
 
 type Props = {
   text?: string;
 };
 
-export default function NewReviewButton({ text = "New" }: Props) {
+export default function NewReviewButton({ text }: Props) {
   const router = useRouter();
   return (
     <Button
-      style={{
-        background: colors.accentColor,
-        color: colors.black,
-      }}
-      onPress={() => router.push("/create")}
-    >
-      {text}
-    </Button>
+      text={text ?? "New review"}
+      className="w-full"
+      style={{ backgroundColor: colors.accentColor }}
+      onClick={() => router.push("/create")}
+    />
   );
 }

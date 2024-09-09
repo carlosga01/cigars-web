@@ -5,6 +5,7 @@ import { Spinner } from "@nextui-org/react";
 
 import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
+import { Button } from "@/components/base";
 
 export default async function HomePage({
   searchParams,
@@ -45,6 +46,7 @@ export default async function HomePage({
         backgroundColor: colors.black,
       }}
     >
+      <NewReviewButton />
       {!!reviews.records.length ? (
         reviews.records.map((review) => {
           return <ReviewCard key={review.id} reviewData={JSON.stringify(review)} />;

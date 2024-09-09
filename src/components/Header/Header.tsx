@@ -25,7 +25,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
-    { label: "Start a review", href: "/create" },
     { label: "My reviews", href: "/home?tab=me" },
     { label: "All reviews", href: "/home?tab=all" },
   ];
@@ -99,9 +98,8 @@ export default function Header() {
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item.label}-${index}`}>
             <Link
-              className="w-full"
+              className="w-full text-xl my-1"
               href={item.href}
-              size="lg"
               style={{ color: colors.primaryText }}
             >
               {item.label}
