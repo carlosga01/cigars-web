@@ -41,7 +41,7 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] px-1 pt-4 pb-16"
+      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] px-3 pt-3 pb-16"
       style={{
         backgroundColor: colors.black,
       }}
@@ -68,7 +68,7 @@ export default async function HomePage({
               acc.push(
                 <div
                   key={`${currentMonth}-${currentYear}`}
-                  className="w-full font-bold mt-4"
+                  className="w-full font-bold mt-2 ms-4 italic"
                   style={{ color: colors.primaryText }}
                 >
                   {`${currentMonth} ${currentYear}`}

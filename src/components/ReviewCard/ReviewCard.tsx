@@ -66,9 +66,9 @@ export default function ReviewCard({ reviewData, index }: Props) {
           src={review.images?.[0]?.url}
           disableSkeleton
         />
-        <div className="flex flex-1 flex-col p-2 h-[100px] overflow-hidden justify-between">
+        <div className="flex flex-1 flex-col p-2 pt-4 h-[100px] overflow-hidden justify-between">
           <p
-            className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md"
+            className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md pe-2"
             style={{ color: colors.primaryText }}
           >
             {review.cigar?.name}
