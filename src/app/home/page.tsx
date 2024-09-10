@@ -54,24 +54,25 @@ export default async function HomePage({
         <>
           {reviews.records.reduce((acc, review, index, array) => {
             const currentDate = new Date(review.smokedOn);
-            const currentMonth = currentDate.toLocaleString("default", { month: "long" });
+            const currentMonth = currentDate.getMonth();
             const currentYear = currentDate.getFullYear();
 
             if (
               index === 0 ||
-              currentMonth !==
-                new Date(array[index - 1].smokedOn).toLocaleString("default", {
-                  month: "long",
-                }) ||
+              currentMonth !== new Date(array[index - 1].smokedOn).getMonth() ||
               currentYear !== new Date(array[index - 1].smokedOn).getFullYear()
             ) {
               acc.push(
                 <div
-                  key={`${currentMonth}-${currentYear}`}
+                  key={`${currentDate.toLocaleString("default", {
+                    month: "long",
+                  })}-${currentYear}`}
                   className="w-full font-bold mt-2 ms-4 italic"
                   style={{ color: colors.primaryText }}
                 >
-                  {`${currentMonth} ${currentYear}`}
+                  {`${currentDate.toLocaleString("default", {
+                    month: "long",
+                  })} ${currentYear}`}
                 </div>,
               );
             }
