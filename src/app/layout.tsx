@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ClerkProvider>
       <Providers>
-        <html lang="en" className="overscroll-none">
+        <html lang="en" className="overscroll-none dark">
           <head>
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <link rel="manifest" href="/site.webmanifest" />
             <title>Puros</title>
           </head>
-          <body className={robotoFlex.className + " dark"}>
+          <body className={robotoFlex.className}>
             <Header />
             <div style={{ marginTop: HEADER_HEIGHT, backgroundColor: colors.background }}>
               {children}
