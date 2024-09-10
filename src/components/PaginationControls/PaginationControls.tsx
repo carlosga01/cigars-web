@@ -23,7 +23,6 @@ export default function PaginationControls({ numRecords }: Props) {
       total={Math.ceil(Number(numRecords) / Number(pageSize))}
       initialPage={parseInt(page)}
       onChange={onChangeValue}
-      color="warning"
     />
   );
 }

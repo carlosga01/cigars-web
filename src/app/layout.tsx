@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <link rel="manifest" href="/site.webmanifest" />
             <title>Puros</title>
           </head>
-          <body className={robotoFlex.className}>
+          <body className={robotoFlex.className + " dark"}>
             <Header />
             <div style={{ marginTop: HEADER_HEIGHT, backgroundColor: colors.background }}>
               {children}

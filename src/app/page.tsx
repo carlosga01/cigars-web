@@ -49,28 +49,10 @@ export default function LandingPage() {
           </p>
         </div>
         <div className="flex justify-center gap-x-4">
-          <Button
-            as={Link}
-            href="/sign-in"
-            variant="flat"
-            style={{
-              color: colors.primaryText,
-              backgroundColor: colors.secondaryBackground,
-              fontWeight: "bold",
-            }}
-          >
+          <Button as={Link} href="/sign-in" variant="bordered" color="primary">
             Sign In
           </Button>
-          <Button
-            as={Link}
-            href="/sign-up"
-            variant="flat"
-            style={{
-              color: colors.black,
-              backgroundColor: colors.accentColor,
-              fontWeight: "bold",
-            }}
-          >
+          <Button as={Link} href="/sign-up" variant="solid" color="primary">
             Sign Up
           </Button>
         </div>

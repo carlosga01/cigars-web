@@ -190,12 +190,7 @@ export default function CreatePage() {
           >
             New Review
           </h1>
-          <Button
-            color="danger"
-            variant="flat"
-            onPress={router.back}
-            style={{ color: colors.black, backgroundColor: colors.errorColor }}
-          >
+          <Button color="danger" variant="solid" onPress={router.back}>
             Cancel
           </Button>
         </div>
@@ -217,19 +212,22 @@ export default function CreatePage() {
               defaultInputValue={cigarSearch}
             >
               {cigars.map((cigar) => {
-                return <AutocompleteItem key={cigar.id}>{cigar.name}</AutocompleteItem>;
+                return (
+                  <AutocompleteItem
+                    key={cigar.id}
+                    className="text-base"
+                    style={{ color: colors.primaryText }}
+                  >
+                    {cigar.name}
+                  </AutocompleteItem>
+                );
               })}
             </Autocomplete>
             <div className="flex flex-row items-center justify-center">
               <div className="italic  mr-4" style={{ color: colors.secondaryText }}>
                 Don&apos;t see your cigar?
               </div>
-              <Button
-                color="primary"
-                variant="bordered"
-                onPress={() => setCustomCigar(true)}
-                style={{ borderColor: colors.accentColor, color: colors.accentColor }}
-              >
+              <Button color="primary" variant="flat" onPress={() => setCustomCigar(true)}>
                 Add it
               </Button>
             </div>
@@ -244,7 +242,7 @@ export default function CreatePage() {
               alt="my cigar image"
             />
             <Button
-              variant="bordered"
+              variant="flat"
               color="danger"
               className="ms-4"
               onPress={() => {
@@ -275,8 +273,8 @@ export default function CreatePage() {
             </div>
             <Button
               className="ms-4"
+              color="primary"
               onPress={() => fileInput.current?.click()}
-              style={{ color: colors.black, backgroundColor: colors.accentColor }}
             >
               Upload
             </Button>
@@ -306,9 +304,9 @@ export default function CreatePage() {
                 const newRating = Math.max(0, record.rating - 0.5);
                 setRecord((prev) => ({ ...prev, rating: newRating }));
               }}
+              variant="flat"
+              color="primary"
               style={{
-                color: colors.primaryText,
-                backgroundColor: colors.highlight,
                 width: "40px",
                 height: "40px",
                 minWidth: "40px",
@@ -337,9 +335,9 @@ export default function CreatePage() {
                 const newRating = Math.min(5, record.rating + 0.5);
                 setRecord((prev) => ({ ...prev, rating: newRating }));
               }}
+              variant="flat"
+              color="primary"
               style={{
-                color: colors.primaryText,
-                backgroundColor: colors.highlight,
                 width: "40px",
                 height: "40px",
                 minWidth: "40px",
@@ -355,7 +353,7 @@ export default function CreatePage() {
           onPress={onSave}
           isLoading={isSaving}
           isDisabled={!saveEnabled}
-          style={{ color: colors.black, backgroundColor: colors.accentColor }}
+          color="success"
         >
           Save
         </Button>

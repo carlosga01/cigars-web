@@ -1,13 +1,12 @@
 "use client";
 
 import { ReviewsRecord } from "@/xata";
-import { Image } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
-import { Button } from "../base";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -50,13 +49,27 @@ export default function Review({ review }: Props) {
         backgroundColor: colors.black,
       }}
     >
-      <Button
-        text="Back"
-        onClick={() => router.back()}
-        variant="primary"
-        className="self-start"
-        style={{ background: colors.accentColor }}
-      />
+      <div className="flex flex-row justify-between w-full">
+        <Button
+          onClick={() => router.back()}
+          variant="solid"
+          className="self-start"
+          color="primary"
+        >
+          Back
+        </Button>
+        {user?.id === reviewUser?.id && (
+          <Button
+            variant="flat"
+            color="warning"
+            onClick={() => {
+              router.push(`/create/?reviewId=${data.id}&mode=edit`);
+            }}
+          >
+            Edit
+          </Button>
+        )}
+      </div>
       <div
         className="text-center m-2 font-bold text-xl"
         style={{ color: colors.primaryText }}
@@ -101,18 +114,6 @@ export default function Review({ review }: Props) {
       <div className="text-center" style={{ color: colors.primaryText }}>
         {data.reviewText}
       </div>
-      {user?.id === reviewUser?.id && (
-        <Button
-          text="Edit"
-          className="w-full mt-8"
-          style={{
-            backgroundColor: colors.accentColor,
-          }}
-          onClick={() => {
-            router.push(`/create/?reviewId=${data.id}&mode=edit`);
-          }}
-        />
-      )}
     </div>
   );
 }

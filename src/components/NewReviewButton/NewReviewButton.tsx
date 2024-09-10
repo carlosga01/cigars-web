@@ -11,11 +11,8 @@ type Props = {
 export default function NewReviewButton({ text }: Props) {
   const router = useRouter();
   return (
-    <Button
-      style={{ backgroundColor: colors.accentColor }}
-      onClick={() => router.push("/create")}
-    >
-      {text ?? "New review"}
+    <Button variant="solid" color="primary" onClick={() => router.push("/create")}>
+      {text ?? "New"}
     </Button>
   );
 }

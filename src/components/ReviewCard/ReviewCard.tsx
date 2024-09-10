@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
-import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
 import { motion } from "framer-motion";
 
@@ -54,9 +53,6 @@ export default function ReviewCard({ reviewData, index }: Props) {
     >
       <Card
         isPressable
-        style={{
-          backgroundColor: colors.white20,
-        }}
         className="flex flex-row w-full"
         onPress={() => router.push(`/review/${review.id}`)}
       >
@@ -67,10 +63,7 @@ export default function ReviewCard({ reviewData, index }: Props) {
           disableSkeleton
         />
         <div className="flex flex-1 flex-col p-2 pt-4 h-[100px] overflow-hidden justify-between">
-          <p
-            className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md pe-2"
-            style={{ color: colors.primaryText }}
-          >
+          <p className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md pe-2">
             {review.cigar?.name}
           </p>
           <div className="flex flex-row justify-between">
@@ -85,7 +78,7 @@ export default function ReviewCard({ reviewData, index }: Props) {
             <div className="flex flex-col gap-1">
               <div className="flex flex-row justify-end">
                 <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
-                <div className="text-xs ms-2" style={{ color: colors.primaryText }}>
+                <div className="text-xs ms-2">
                   {!user || !reviewUser
                     ? "Loading..."
                     : reviewUser?.id === user?.id
@@ -93,10 +86,7 @@ export default function ReviewCard({ reviewData, index }: Props) {
                       : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
                 </div>
               </div>
-              <p
-                className="text-xs italic self-end"
-                style={{ color: colors.primaryText }}
-              >
+              <p className="text-xs italic self-end">
                 {new Date(review.smokedOn).toLocaleString(undefined, {
                   month: "short",
                   day: "numeric",
