@@ -7,6 +7,12 @@ type Props = {
 };
 
 export default function HomeTabs({ tab }: Props) {
+  const onPress = (key: "me" | "all") => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", key);
+    window.location.href = url.toString();
+  };
+
   return (
     <div className="flex flex-col">
       <Tabs
@@ -15,9 +21,10 @@ export default function HomeTabs({ tab }: Props) {
         color="primary"
         variant="solid"
         size="lg"
+        onSelectionChange={(key) => onPress(key as "me" | "all")}
       >
-        <Tab key="me" title="My Reviews" href="/home?tab=me"></Tab>
-        <Tab key="all" title="All reviews" href="/home?tab=all"></Tab>
+        <Tab key="me" title="My Reviews"></Tab>
+        <Tab key="all" title="All reviews"></Tab>
       </Tabs>
     </div>
   );

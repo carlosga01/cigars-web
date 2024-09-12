@@ -1,4 +1,10 @@
-import { HomeTabs, NewReviewButton, PaginationControls, ReviewCard } from "@/components";
+import {
+  HomeTabs,
+  NewReviewButton,
+  PaginationControls,
+  ReviewCard,
+  SortByButton,
+} from "@/components";
 import { getXataClient } from "@/xata";
 import { auth } from "@clerk/nextjs";
 import { Spinner } from "@nextui-org/react";
@@ -6,15 +12,22 @@ import { Spinner } from "@nextui-org/react";
 import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
 import React from "react";
+import { SortBy } from "@/components/SortByButton/SortByButton";
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { page?: string; pageSize?: string; tab?: "me" | "all" };
+  searchParams: {
+    page?: string;
+    pageSize?: string;
+    tab?: "me" | "all";
+    sortBy?: SortBy;
+  };
 }) {
   const page = searchParams.page ?? "1";
   const pageSize = searchParams.pageSize ?? "10";
   const tab = searchParams.tab ?? "all";
+  const sortBy = searchParams.sortBy ?? "newest";
 
   const { userId } = auth();
   const client = getXataClient();
@@ -23,16 +36,31 @@ export default async function HomePage({
     redirect("/");
   }
 
-  const reviews = await client.db.reviews
+  let reviewQuery = await client.db.reviews
     .select(["*", "cigar.*"])
-    .filter(tab === "me" ? { userId } : {})
-    .sort("smokedOn", "desc")
-    .getPaginated({
-      pagination: {
-        size: parseInt(pageSize),
-        offset: (parseInt(page) - 1) * parseInt(pageSize),
-      },
-    });
+    .filter(tab === "me" ? { userId } : {});
+
+  switch (sortBy) {
+    case "newest":
+      reviewQuery = reviewQuery.sort("smokedOn", "desc");
+      break;
+    case "oldest":
+      reviewQuery = reviewQuery.sort("smokedOn", "asc");
+      break;
+    case "rating-low-high":
+      reviewQuery = reviewQuery.sort("rating", "asc");
+      break;
+    case "rating-high-low":
+      reviewQuery = reviewQuery.sort("rating", "desc");
+      break;
+  }
+
+  const reviews = await reviewQuery.getPaginated({
+    pagination: {
+      size: parseInt(pageSize),
+      offset: (parseInt(page) - 1) * parseInt(pageSize),
+    },
+  });
 
   const numReviews = await client.db.reviews.summarize({
     summaries: { all_reviews: { count: "*" } },
@@ -46,8 +74,9 @@ export default async function HomePage({
         backgroundColor: colors.black,
       }}
     >
-      <div className="flex flex-row justify-between w-full items-center">
+      <div className="flex flex-row justify-between w-full items-center mb-2">
         <HomeTabs tab={tab} />
+        <SortByButton selectedKey={sortBy} />
         <NewReviewButton />
       </div>
       {!!reviews.records.length ? (
@@ -62,19 +91,23 @@ export default async function HomePage({
               currentMonth !== new Date(array[index - 1].smokedOn).getMonth() ||
               currentYear !== new Date(array[index - 1].smokedOn).getFullYear()
             ) {
-              acc.push(
-                <div
-                  key={`${currentDate.toLocaleString("default", {
-                    month: "long",
-                  })}-${currentYear}`}
-                  className="w-full mt-2 font-bold opacity-75 ms-4 italic"
-                  style={{ color: colors.primaryText }}
-                >
-                  {`${currentDate.toLocaleString("default", {
-                    month: "long",
-                  })} ${currentYear}`}
-                </div>,
-              );
+              if (sortBy === "newest" || sortBy === "oldest") {
+                acc.push(
+                  <div
+                    key={`${currentDate.toLocaleString("default", {
+                      month: "long",
+                    })}-${currentYear}`}
+                    className={`w-full font-bold opacity-75 ms-4 italic ${
+                      index !== 0 ? "mt-2" : ""
+                    }`}
+                    style={{ color: colors.primaryText }}
+                  >
+                    {`${currentDate.toLocaleString("default", {
+                      month: "long",
+                    })} ${currentYear}`}
+                  </div>,
+                );
+              }
             }
 
             acc.push(<ReviewCard reviewData={JSON.stringify(review)} index={index} />);

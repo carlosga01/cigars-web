@@ -7,3 +7,4 @@ export { default as NewReviewButton } from "./NewReviewButton";
 export { default as Review } from "./Review";
 export { default as HomeTabs } from "./HomeTabs";
 export { default as ScrollToTop } from "./ScrollToTop";
+export { default as SortByButton } from "./SortByButton";
