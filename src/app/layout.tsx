@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto_Flex } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Header } from "@/components";
+import { Header, ScrollToTop } from "@/components";
 import { Providers } from "@/providers";
 import colors from "@/theme/colors";
 import { HEADER_HEIGHT } from "@/components/Header";
@@ -39,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div style={{ marginTop: HEADER_HEIGHT, backgroundColor: colors.background }}>
               {children}
             </div>
+            <ScrollToTop />
           </body>
         </html>
       </Providers>
