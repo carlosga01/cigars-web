@@ -32,7 +32,7 @@ export default function CreatePage() {
     reviewId: "",
     cigarId: "",
     review: "",
-    rating: 5,
+    rating: 2.5,
   });
 
   const [cigarSearch, setCigarSearch] = useState("");
@@ -321,7 +321,7 @@ export default function CreatePage() {
               precision={0.5}
               className="self-center mx-2"
               value={record.rating}
-              defaultValue={5}
+              defaultValue={2.5}
               max={5}
               onChange={(_, newValue) => {
                 if (newValue) {
@@ -329,6 +329,11 @@ export default function CreatePage() {
                 }
               }}
               size="large"
+              sx={{
+                "& .MuiRating-iconEmpty": {
+                  color: "rgba(255, 255, 255, 0.25)",
+                },
+              }}
             />
             <Button
               onPress={() => {

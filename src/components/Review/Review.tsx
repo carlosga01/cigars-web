@@ -84,13 +84,19 @@ export default function Review({ review }: Props) {
           {data.cigar?.manufacturer}
         </div>
       )}
-      <div className="flex flex-row items-center mb-4 gap-2">
+      <div className="flex flex-col items-center mb-4 gap-2">
         <Rating
           name="half-rating-read"
           defaultValue={data.rating}
           precision={0.5}
           className="self-center"
           readOnly
+          size="large"
+          sx={{
+            "& .MuiRating-iconEmpty": {
+              color: "rgba(255, 255, 255, 0.25)",
+            },
+          }}
         />
         <div className="flex flex-row justify-end">
           <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />

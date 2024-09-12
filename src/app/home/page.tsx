@@ -46,7 +46,7 @@ export default async function HomePage({
         backgroundColor: colors.black,
       }}
     >
-      <div className="flex flex-row justify-evenly w-full items-center">
+      <div className="flex flex-row justify-between w-full items-center">
         <HomeTabs tab={tab} />
         <NewReviewButton />
       </div>
@@ -67,7 +67,7 @@ export default async function HomePage({
                   key={`${currentDate.toLocaleString("default", {
                     month: "long",
                   })}-${currentYear}`}
-                  className="w-full font-bold mt-2 ms-4 italic"
+                  className="w-full mt-2 font-bold opacity-75 ms-4 italic"
                   style={{ color: colors.primaryText }}
                 >
                   {`${currentDate.toLocaleString("default", {

@@ -53,19 +53,22 @@ export default function ReviewCard({ reviewData, index }: Props) {
     >
       <Card
         isPressable
-        className="flex flex-row w-full"
+        className="flex flex-row w-full p-2"
         onPress={() => router.push(`/review/${review.id}`)}
+        shadow="sm"
       >
         <Image
           alt="Cigar image"
-          className="object-cover h-[100px] w-[100px] flex-shrink-0 mr-2"
+          className="object-cover h-[100px] w-[100px] flex-shrink-0 mr-2 rounded-lg"
           src={review.images?.[0]?.url}
           disableSkeleton
         />
-        <div className="flex flex-1 flex-col p-2 pt-4 h-[100px] overflow-hidden justify-between">
-          <p className="text-start text-ellipsis overflow-hidden whitespace-nowrap text-md pe-2">
-            {review.cigar?.name}
-          </p>
+        <div className="flex flex-1 flex-col p-2 h-[100px]">
+          <div className="flex flex-col justify-start h-full">
+            <p className="text-start overflow-hidden text-md font-bold line-clamp-2 leading-tight ">
+              {review.cigar?.name}
+            </p>
+          </div>
           <div className="flex flex-row justify-between">
             <Rating
               name="half-rating-read"
@@ -73,12 +76,17 @@ export default function ReviewCard({ reviewData, index }: Props) {
               precision={0.5}
               className="self-center"
               readOnly
+              sx={{
+                "& .MuiRating-iconEmpty": {
+                  color: "rgba(255, 255, 255, 0.25)",
+                },
+              }}
             />
 
             <div className="flex flex-col gap-1">
               <div className="flex flex-row justify-end">
                 <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
-                <div className="text-xs ms-2">
+                <div className="text-xs ms-2 opacity-75">
                   {!user || !reviewUser
                     ? "Loading..."
                     : reviewUser?.id === user?.id
@@ -86,7 +94,7 @@ export default function ReviewCard({ reviewData, index }: Props) {
                       : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
                 </div>
               </div>
-              <p className="text-xs italic self-end">
+              <p className="text-xs italic self-end opacity-75">
                 {new Date(review.smokedOn).toLocaleString(undefined, {
                   month: "short",
                   day: "numeric",

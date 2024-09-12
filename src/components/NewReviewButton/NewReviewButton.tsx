@@ -11,7 +11,12 @@ type Props = {
 export default function NewReviewButton({ text }: Props) {
   const router = useRouter();
   return (
-    <Button variant="solid" color="primary" onClick={() => router.push("/create")}>
+    <Button
+      variant="solid"
+      color="primary"
+      className="text-base"
+      onClick={() => router.push("/create")}
+    >
       {text ?? "New"}
     </Button>
   );
