@@ -65,7 +65,7 @@ export default function ReviewCard({ reviewData, index }: Props) {
         />
         <div className="flex flex-1 flex-col p-2 h-[100px]">
           <div className="flex flex-col justify-start h-full">
-            <p className="text-start overflow-hidden text-md font-bold line-clamp-2 leading-tight ">
+            <p className="text-start overflow-hidden text-md font-bold line-clamp-2 leading-tight">
               {review.cigar?.name}
             </p>
           </div>

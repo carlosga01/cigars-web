@@ -44,7 +44,7 @@ export default function Review({ review }: Props) {
 
   return (
     <div
-      className="p-4 flex flex-col items-center h-[100dvh]"
+      className="p-4 flex flex-col items-center gap-4 pb-12"
       style={{
         backgroundColor: colors.black,
       }}
@@ -70,26 +70,39 @@ export default function Review({ review }: Props) {
           </Button>
         )}
       </div>
-      <div
-        className="text-center m-2 font-bold text-xl"
-        style={{ color: colors.primaryText }}
-      >
-        {data.cigar?.name}
-      </div>
-      {!!data.cigar?.manufacturer && data.cigar.manufacturer != "null" && (
+      <div>
         <div
-          className="text-center mb-4 mt-1 italic text-sm"
+          className="text-center font-bold text-2xl leading-tight"
           style={{ color: colors.primaryText }}
         >
-          {data.cigar?.manufacturer}
+          {data.cigar?.name}
+        </div>
+      </div>
+      {!!data.images?.length && (
+        <Image
+          src={data.images[0].url}
+          alt="Cigar image"
+          className="object-cover aspect-square w-full"
+          disableSkeleton
+        />
+      )}
+      {!!data.cigar?.manufacturer && data.cigar.manufacturer != "null" && (
+        <div className="flex flex-col self-start">
+          <div className="self-start text-base font-bold opacity-50">Manufacturer</div>
+          <div className="" style={{ color: colors.primaryText }}>
+            {data.cigar?.manufacturer}
+          </div>
         </div>
       )}
-      <div className="flex flex-col items-center mb-4 gap-2">
+
+      <div className="flex flex-col self-start">
+        <div className="self-start text-base font-bold opacity-50">
+          Rating ({data.rating})
+        </div>
         <Rating
           name="half-rating-read"
           defaultValue={data.rating}
           precision={0.5}
-          className="self-center"
           readOnly
           size="large"
           sx={{
@@ -98,27 +111,28 @@ export default function Review({ review }: Props) {
             },
           }}
         />
-        <div className="flex flex-row justify-end">
-          <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
-          <div className="text-xs ms-2" style={{ color: colors.primaryText }}>
+      </div>
+      <div className="flex flex-col self-start">
+        <div className="self-start text-base font-bold opacity-50">Review</div>
+        <div className="leading-tight" style={{ color: colors.primaryText }}>
+          {data.reviewText}
+        </div>
+      </div>
+      <div className="flex flex-col self-start">
+        <div className="flex flex-row items-center justify-center">
+          <Image
+            alt="User image"
+            src={reviewUser?.imageUrl}
+            className="h-[50px] w-[50px] rounded-full"
+          />
+          <div className="text-base ms-2" style={{ color: colors.primaryText }}>
             {!user || !reviewUser
-              ? null
+              ? "Loading..."
               : reviewUser?.id === user?.id
                 ? "You"
                 : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
           </div>
         </div>
-      </div>
-      {!!data.images?.length && (
-        <Image
-          src={data.images[0].url}
-          alt="Cigar image"
-          className="object-cover aspect-square w-full m-auto mb-4 mt-2"
-          disableSkeleton
-        />
-      )}
-      <div className="text-center" style={{ color: colors.primaryText }}>
-        {data.reviewText}
       </div>
     </div>
   );
