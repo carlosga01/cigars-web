@@ -107,7 +107,7 @@ export default function Review({ review }: Props) {
         <Image
           src={data.images[0].url}
           alt="Cigar image"
-          className="object-cover aspect-square w-3/4 m-auto mb-4 mt-2"
+          className="object-cover aspect-square w-full m-auto mb-4 mt-2"
           disableSkeleton
         />
       )}
