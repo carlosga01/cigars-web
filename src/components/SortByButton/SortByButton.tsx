@@ -9,7 +9,13 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 
-export type SortBy = "newest" | "oldest" | "rating-low-high" | "rating-high-low";
+export type SortBy =
+  | "newest"
+  | "oldest"
+  | "rating-low-high"
+  | "rating-high-low"
+  | "price-low-high"
+  | "price-high-low";
 
 type Props = {
   selectedKey: SortBy;
@@ -21,6 +27,8 @@ const SortByButton: React.FC<Props> = ({ selectedKey }) => {
     { key: "oldest", label: "Oldest" },
     { key: "rating-low-high", label: "Rating (low → high)" },
     { key: "rating-high-low", label: "Rating (high → low)" },
+    { key: "price-low-high", label: "Price (low → high)" },
+    { key: "price-high-low", label: "Price (high → low)" },
   ] as { key: SortBy; label: string }[];
 
   const onPress = (key: SortBy) => {

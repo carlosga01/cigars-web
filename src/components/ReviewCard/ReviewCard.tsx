@@ -8,6 +8,7 @@ import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import { Rating } from "@mui/material";
 import { motion } from "framer-motion";
+import { getPriceAbbreviation } from "@/utils/price.util";
 
 type Props = {
   reviewData: string;
@@ -64,10 +65,17 @@ export default function ReviewCard({ reviewData, index }: Props) {
           disableSkeleton
         />
         <div className="flex flex-1 flex-col p-2 h-[100px]">
-          <div className="flex flex-col justify-start h-full">
-            <p className="text-start overflow-hidden text-md font-bold line-clamp-2 leading-tight">
-              {review.cigar?.name}
-            </p>
+          <div className="flex flex-row justify-between h-full">
+            <div className="flex flex-col justify-start h-full">
+              <p className="text-start overflow-hidden text-md font-bold line-clamp-2 leading-tight">
+                {review.cigar?.name}
+              </p>
+            </div>
+            {review.price && (
+              <div className="font-bold text-success ms-2">
+                {getPriceAbbreviation(review.price)}
+              </div>
+            )}
           </div>
           <div className="flex flex-row justify-between">
             <Rating

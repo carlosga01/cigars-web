@@ -53,6 +53,12 @@ export default async function HomePage({
     case "rating-high-low":
       reviewQuery = reviewQuery.sort("rating", "desc");
       break;
+    case "price-low-high":
+      reviewQuery = reviewQuery.filter({ $exists: "price" }).sort("price", "asc");
+      break;
+    case "price-high-low":
+      reviewQuery = reviewQuery.filter({ $exists: "price" }).sort("price", "desc");
+      break;
   }
 
   const reviews = await reviewQuery.getPaginated({
@@ -64,7 +70,12 @@ export default async function HomePage({
 
   const numReviews = await client.db.reviews.summarize({
     summaries: { all_reviews: { count: "*" } },
-    filter: tab === "me" ? { userId } : {},
+    filter: {
+      ...(tab === "me" ? { userId } : {}),
+      ...(sortBy === "price-low-high" || sortBy === "price-high-low"
+        ? { $exists: "price" }
+        : {}),
+    },
   });
 
   return (

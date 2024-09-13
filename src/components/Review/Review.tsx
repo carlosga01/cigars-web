@@ -8,6 +8,7 @@ import { Rating } from "@mui/material";
 import { User } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { getPriceAbbreviation } from "@/utils/price.util";
 
 type Props = {
   review: string;
@@ -118,11 +119,14 @@ export default function Review({ review }: Props) {
           {data.reviewText}
         </div>
       </div>
-      {data.price && (
+      {!!data.price && (
         <div className="flex flex-col self-start">
           <div className="self-start text-base font-bold opacity-50">Price</div>
           <div className="leading-tight" style={{ color: colors.primaryText }}>
-            ${data.price.toFixed(2)}
+            <span className="font-bold text-success">
+              {getPriceAbbreviation(data.price)}
+            </span>{" "}
+            &ndash; ${data.price.toFixed(2)}
           </div>
         </div>
       )}
