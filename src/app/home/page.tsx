@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import colors from "@/theme/colors";
 import React from "react";
 import { SortBy } from "@/components/SortByButton/SortByButton";
+import RefreshCache from "@/components/RefreshCache/RefreshCache";
 
 export default async function HomePage({
   searchParams,
@@ -22,6 +23,7 @@ export default async function HomePage({
     pageSize?: string;
     tab?: "me" | "all";
     sortBy?: SortBy;
+    refresh?: boolean;
   };
 }) {
   const page = searchParams.page ?? "1";
@@ -85,6 +87,7 @@ export default async function HomePage({
         backgroundColor: colors.black,
       }}
     >
+      <RefreshCache refresh={searchParams.refresh} />
       <div className="flex flex-row justify-between w-full items-center mb-2">
         <HomeTabs tab={tab} />
         <SortByButton selectedKey={sortBy} />

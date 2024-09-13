@@ -78,3 +78,18 @@ export async function PUT(request: NextRequest) {
 
   return Response.json({ data });
 }
+
+export type DeleteReviewPayload = {
+  reviewId: string;
+};
+
+export async function DELETE(request: NextRequest) {
+  const body = (await request.json()) as DeleteReviewPayload;
+
+  const client = getXataClient();
+  await client.db.reviews.delete({
+    id: body.reviewId,
+  });
+
+  return Response.json({});
+}

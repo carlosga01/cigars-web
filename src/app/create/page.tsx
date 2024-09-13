@@ -7,13 +7,18 @@ import {
   Button,
   Image,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Textarea,
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { useDebounce } from "use-debounce";
-import { CreateReviewPayload } from "../api/create/route";
+import { CreateReviewPayload, DeleteReviewPayload } from "../api/create/route";
 import { CreateCigarPayload } from "../api/cigar/route";
 import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
@@ -181,9 +186,21 @@ export default function CreatePage() {
     router.refresh();
   };
 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const onDelete = async () => {
+    setDeleteModalOpen(false);
+    await fetch("/api/create", {
+      method: "DELETE",
+      body: JSON.stringify({
+        reviewId: record.reviewId,
+      } as DeleteReviewPayload),
+    });
+    router.push("/home?refresh=true");
+  };
+
   return (
     <div
-      className="flex flex-col justify-center p-3 w-full md:w-[600px]"
+      className="flex flex-col justify-center p-3 w-full md:w-[600px] mb-12"
       style={{
         backgroundColor: colors.black,
       }}
@@ -433,6 +450,46 @@ export default function CreatePage() {
         >
           Save
         </Button>
+        {mode === "edit" && (
+          <>
+            <Button
+              onPress={() => setDeleteModalOpen(true)}
+              color="danger"
+              variant="flat"
+            >
+              Delete review
+            </Button>
+            <Modal
+              placement="center"
+              isOpen={deleteModalOpen}
+              onOpenChange={(c) => setDeleteModalOpen(c)}
+            >
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">
+                      Delete review
+                    </ModalHeader>
+                    <ModalBody>
+                      <p>
+                        Are you sure you want to delete this review? This cannot be
+                        undone.
+                      </p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="primary" onPress={onClose}>
+                        Go back
+                      </Button>
+                      <Button color="danger" variant="flat" onPress={onDelete}>
+                        Delete
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
+          </>
+        )}
       </div>
     </div>
   );
