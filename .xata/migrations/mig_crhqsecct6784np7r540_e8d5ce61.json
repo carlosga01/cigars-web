@@ -1,0 +1,13 @@
+{
+  "id": "mig_crhqsecct6784np7r540",
+  "parentID": "mig_crhqs3sct6784np7r530",
+  "checksum": "1:e8d5ce618152462f5982d084e37cc0ceec6d23bd23eb558fc0fbdf97039b1607",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "price",
+        "table": "cigars"
+      }
+    }
+  ]
+}

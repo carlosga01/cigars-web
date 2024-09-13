@@ -69,7 +69,7 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] px-3 pt-3 pb-16"
+      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] p-3 pb-16"
       style={{
         backgroundColor: colors.black,
       }}

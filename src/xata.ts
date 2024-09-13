@@ -21,6 +21,7 @@ const tables = [
         notNull: true,
         defaultValue: "now",
       },
+      { name: "price", type: "float" },
     ],
   },
   {

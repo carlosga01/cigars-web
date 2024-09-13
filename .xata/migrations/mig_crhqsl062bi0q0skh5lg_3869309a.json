@@ -1,0 +1,16 @@
+{
+  "id": "mig_crhqsl062bi0q0skh5lg",
+  "parentID": "mig_crhqsecct6784np7r540",
+  "checksum": "1:3869309a32665e620f8a3163d9a4d31b7d8da91580ba48e3a73d215786faeb96",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "price",
+          "type": "float"
+        },
+        "table": "reviews"
+      }
+    }
+  ]
+}

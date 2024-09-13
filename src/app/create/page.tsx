@@ -86,6 +86,7 @@ export default function CreatePage() {
           cigarId: review.data.cigar?.id ?? "",
           rating: review.data.rating,
           review: review.data.reviewText ?? "",
+          price: review.data.price,
         });
         setCigarSearch(review.data.cigar?.name ?? "");
         if (review.data.images) {
@@ -180,7 +181,7 @@ export default function CreatePage() {
         backgroundColor: colors.black,
       }}
     >
-      <div className="flex flex-col justify-center w-full md:w-[600px] p-4 mb-16 gap-4">
+      <div className="flex flex-col justify-center w-full md:w-[600px] p-3 mb-16 gap-4">
         <div className="flex flex-row items-center justify-between w-full">
           <h1
             className="text-start font-bold text-xl"
@@ -354,11 +355,37 @@ export default function CreatePage() {
             </Button>
           </div>
         </div>
+        <Input
+          label="Price (optional)"
+          placeholder="0.00"
+          size="lg"
+          startContent="$"
+          type="number"
+          value={record.price?.toString()}
+          onValueChange={(value) => {
+            let inputValue = value.replace(/[^0-9.]/g, ""); // Remove all non-numeric characters except the period
+            if (inputValue) {
+              const decimalParts = inputValue.split(".");
+              if (decimalParts.length > 2) {
+                inputValue = `${decimalParts[0]}.${decimalParts[1]}`; // Only allow one decimal point
+              }
+              if (decimalParts[1] && decimalParts[1].length > 2) {
+                inputValue = `${decimalParts[0]}.${decimalParts[1].substring(0, 2)}`; // Limit to two decimal places
+              }
+            }
+            const parsedInput = parseFloat(inputValue);
+            setRecord((prev) => ({
+              ...prev,
+              price: parsedInput ? parsedInput : null,
+            }));
+          }}
+        />
         <Button
           onPress={onSave}
           isLoading={isSaving}
           isDisabled={!saveEnabled}
           color="success"
+          className="mt-4"
         >
           Save
         </Button>

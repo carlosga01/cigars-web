@@ -1,0 +1,16 @@
+{
+  "id": "mig_crhqs3sct6784np7r530",
+  "parentID": "mig_cltr4n39oa72492s7hug",
+  "checksum": "1:02209f5122011eef328d324c6ccede0df6cc482edeb758c3b4bcacc79dda7451",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "price",
+          "type": "float"
+        },
+        "table": "cigars"
+      }
+    }
+  ]
+}

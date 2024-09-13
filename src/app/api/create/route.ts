@@ -10,6 +10,7 @@ export type CreateReviewPayload = {
   rating: number;
   imageFile?: File;
   imageBase64?: string;
+  price?: number | null;
 };
 
 export async function POST(request: NextRequest) {
@@ -30,6 +31,7 @@ export async function POST(request: NextRequest) {
       },
     ],
     cigar: body.cigarId,
+    price: body.price,
   } as Omit<EditableData<ReviewsRecord>, "id"> & Partial<Identifiable>);
 
   return Response.json({ data });
@@ -53,6 +55,7 @@ export async function PUT(request: NextRequest) {
       rating: body.rating,
       reviewText: body.review,
       userId,
+      price: body.price,
       images: [
         {
           name: body.imageFile?.name,
@@ -69,6 +72,7 @@ export async function PUT(request: NextRequest) {
       reviewText: body.review,
       userId,
       cigar: body.cigarId,
+      price: body.price,
     } as EditableData<ReviewsRecord> & Partial<Identifiable>);
   }
 

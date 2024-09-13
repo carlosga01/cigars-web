@@ -44,7 +44,7 @@ export default function Review({ review }: Props) {
 
   return (
     <div
-      className="p-4 flex flex-col items-center gap-4 pb-12"
+      className="p-3 flex flex-col items-center gap-4 pb-12"
       style={{
         backgroundColor: colors.black,
       }}
@@ -118,6 +118,14 @@ export default function Review({ review }: Props) {
           {data.reviewText}
         </div>
       </div>
+      {data.price && (
+        <div className="flex flex-col self-start">
+          <div className="self-start text-base font-bold opacity-50">Price</div>
+          <div className="leading-tight" style={{ color: colors.primaryText }}>
+            ${data.price.toFixed(2)}
+          </div>
+        </div>
+      )}
       <div className="flex flex-col self-start">
         <div className="flex flex-row items-center justify-center">
           <Image
