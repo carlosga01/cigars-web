@@ -17,6 +17,9 @@ import { CreateReviewPayload } from "../api/create/route";
 import { CreateCigarPayload } from "../api/cigar/route";
 import colors from "@/theme/colors";
 import { Rating } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import UploadIcon from "@mui/icons-material/Upload";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -45,6 +48,8 @@ export default function CreatePage() {
   const [customCigar, setCustomCigar] = useState(false);
   const [customCigarName, setCustomCigarName] = useState("");
 
+  const [isFetchingCigars, setIsFetchingCigars] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetch(
@@ -55,11 +60,13 @@ export default function CreatePage() {
       );
       const cigars = (await result.json()) as { data: { records: CigarsRecord[] } };
       setCigars(cigars.data.records);
+      setIsFetchingCigars(false);
     };
     if (cigarSearch.length) {
       fetchData();
     } else {
       setCigars([]);
+      setIsFetchingCigars(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
@@ -176,41 +183,65 @@ export default function CreatePage() {
 
   return (
     <div
-      className="flex justify-center"
+      className="flex flex-col justify-center p-3 w-full md:w-[600px]"
       style={{
         backgroundColor: colors.black,
       }}
     >
-      <div className="flex flex-col justify-center w-full md:w-[600px] p-3 mb-16 gap-4">
-        <div className="flex flex-row items-center justify-between w-full">
-          <h1
-            className="text-start font-bold text-xl"
-            style={{
-              color: colors.primaryText,
-            }}
-          >
-            New Review
-          </h1>
-          <Button color="danger" variant="solid" onPress={router.back}>
-            Cancel
-          </Button>
-        </div>
+      <div className="flex flex-row items-center justify-between w-full mb-2">
+        <h1
+          className="text-start font-bold text-xl"
+          style={{
+            color: colors.primaryText,
+          }}
+        >
+          {mode === "edit" ? "Edit" : "New"} Review
+        </h1>
+        <Button color="danger" variant="solid" onPress={router.back}>
+          Cancel
+        </Button>
+      </div>
+      <div className="flex flex-col justify-center gap-6">
         {customCigar ? (
           <>
-            <Input label="Cigar name" onValueChange={setCustomCigarName} size="lg" />
+            <Input
+              label="Cigar name"
+              variant="underlined"
+              onValueChange={setCustomCigarName}
+              size="lg"
+              placeholder="Enter your cigar name"
+              isRequired
+            />
           </>
         ) : (
           <>
             <Autocomplete
               label="Cigar"
-              placeholder={cigarSearch ? cigarSearch : "Search for a cigar"}
-              onInputChange={setCigarSearch}
+              placeholder={cigarSearch ? cigarSearch : "Search for your cigar"}
+              onInputChange={(i) => {
+                setIsFetchingCigars(true);
+                setCigarSearch(i);
+              }}
               onSelectionChange={(k) =>
                 setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
               }
               size="lg"
               defaultSelectedKey={record.cigarId}
               defaultInputValue={cigarSearch}
+              variant="underlined"
+              isRequired
+              listboxProps={{
+                emptyContent: isFetchingCigars ? (
+                  "Loading..."
+                ) : cigarSearch.length > 0 ? (
+                  <Button onPress={() => setCustomCigar(true)}>
+                    Don&apos;t see your cigar? Add it
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  "No results found."
+                ),
+              }}
             >
               {cigars.map((cigar) => {
                 return (
@@ -224,39 +255,52 @@ export default function CreatePage() {
                 );
               })}
             </Autocomplete>
-            <div className="flex flex-row items-center justify-center">
-              <div className="italic  mr-4" style={{ color: colors.secondaryText }}>
-                Don&apos;t see your cigar?
-              </div>
-              <Button color="primary" variant="flat" onPress={() => setCustomCigar(true)}>
-                Add it
-              </Button>
-            </div>
           </>
         )}
 
-        {imageSrc ? (
-          <div className="flex flex-row w-full justify-center items-center">
-            <Image
-              src={imageSrc}
-              className="h-48 w-48 object-cover rounded-full"
-              alt="my cigar image"
-            />
-            <Button
-              variant="flat"
-              color="danger"
-              className="ms-4"
-              onPress={() => {
-                setImage(undefined);
-                setImageSrc("");
-              }}
-            >
-              Remove
-            </Button>
-          </div>
-        ) : (
-          <div className="flex w-full justify-center items-center">
-            <input
+        <div className="flex flex-col gap-1">
+          <p className="text-sm">
+            Image <span className="text-danger-400">*</span>
+          </p>
+          {imageSrc ? (
+            <div className="flex flex-row items-center">
+              <Image
+                src={imageSrc}
+                className="h-[100px] w-[100px] object-cover"
+                alt="my cigar image"
+              />
+              <Button
+                variant="flat"
+                color="danger"
+                className="ms-4"
+                onPress={() => {
+                  setImage(undefined);
+                  setImageSrc("");
+                }}
+                isIconOnly
+              >
+                <CloseIcon />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-col">
+              <input
+                ref={fileInput}
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files?.[0])}
+                className="hidden"
+              />
+              <Button
+                color="default"
+                variant="bordered"
+                onPress={() => fileInput.current?.click()}
+              >
+                <UploadIcon />
+                Upload
+              </Button>
+
+              {/* <input
               ref={fileInput}
               type="file"
               accept="image/*"
@@ -278,9 +322,10 @@ export default function CreatePage() {
               onPress={() => fileInput.current?.click()}
             >
               Upload
-            </Button>
-          </div>
-        )}
+            </Button> */}
+            </div>
+          )}
+        </div>
 
         <Textarea
           label="Review"
@@ -289,24 +334,21 @@ export default function CreatePage() {
           onValueChange={(review) => setRecord((prev) => ({ ...prev, review }))}
           className="text-base"
           size="lg"
+          variant="underlined"
+          isRequired
+          labelPlacement="outside"
         />
-        <div>
-          <p
-            className=" text-center font-bold text-l"
-            style={{
-              color: colors.primaryText,
-            }}
-          >
-            Overall rating ({record.rating})
-          </p>
-          <div className="flex flex-row items-center justify-evenly">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm ml-1">Rating ({record.rating})</p>
+
+          <div className="flex flex-row">
             <Button
               onPress={() => {
                 const newRating = Math.max(0, record.rating - 0.5);
                 setRecord((prev) => ({ ...prev, rating: newRating }));
               }}
-              variant="flat"
-              color="primary"
+              variant="bordered"
+              color="default"
               style={{
                 width: "40px",
                 height: "40px",
@@ -341,8 +383,8 @@ export default function CreatePage() {
                 const newRating = Math.min(5, record.rating + 0.5);
                 setRecord((prev) => ({ ...prev, rating: newRating }));
               }}
-              variant="flat"
-              color="primary"
+              variant="bordered"
+              color="default"
               style={{
                 width: "40px",
                 height: "40px",
@@ -380,13 +422,14 @@ export default function CreatePage() {
               price: parsedInput ? parsedInput : null,
             }));
           }}
+          variant="underlined"
+          isClearable
         />
         <Button
           onPress={onSave}
           isLoading={isSaving}
           isDisabled={!saveEnabled}
           color="success"
-          className="mt-4"
         >
           Save
         </Button>
