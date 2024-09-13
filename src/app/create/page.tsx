@@ -360,6 +360,7 @@ export default function CreatePage() {
           placeholder="0.00"
           size="lg"
           startContent="$"
+          inputMode="decimal"
           type="number"
           value={record.price?.toString()}
           onValueChange={(value) => {
