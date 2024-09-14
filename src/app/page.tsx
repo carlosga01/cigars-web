@@ -34,22 +34,22 @@ export default function LandingPage() {
           <Image
             alt="Puros"
             src={Puros}
+            className="md:max-w-[300px]"
             style={{
               width: "75vw",
               aspectRatio: "2.75",
               objectFit: "contain",
-              height: "auto",
             }}
           />
           <p
-            className="font-normal text-lg sm:text-xl md:text-[1.5rem]"
+            className="font-normal italic text-lg sm:text-xl md:text-[1.5rem] opacity-75"
             style={{ color: colors.primaryText }}
           >
             The cigar app
           </p>
         </div>
         <div className="flex justify-center gap-x-4">
-          <Button as={Link} href="/sign-in" variant="bordered" color="primary">
+          <Button as={Link} href="/sign-in" variant="solid" color="secondary">
             Sign In
           </Button>
           <Button as={Link} href="/sign-up" variant="solid" color="primary">

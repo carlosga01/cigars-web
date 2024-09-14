@@ -44,12 +44,7 @@ export default function Review({ review }: Props) {
   if (!data) return null;
 
   return (
-    <div
-      className="p-3 flex flex-col items-center gap-4 pb-12"
-      style={{
-        backgroundColor: colors.black,
-      }}
-    >
+    <div className="p-3 flex flex-col m-auto gap-4 md:max-w-[500px]">
       <div className="flex flex-row justify-between w-full">
         <Button
           onClick={() => router.back()}

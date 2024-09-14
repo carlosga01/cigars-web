@@ -1,4 +1,5 @@
 import { Review } from "@/components";
+import colors from "@/theme/colors";
 import { ReviewsRecord, getXataClient } from "@/xata";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
@@ -22,5 +23,14 @@ export default async function ReviewPage({ params }: { params: { id: string } })
     .filter({ id })
     .getFirst()) as ReviewsRecord;
 
-  return <Review review={JSON.stringify(data)} />;
+  return (
+    <div
+      className="w-full pb-12"
+      style={{
+        backgroundColor: colors.black,
+      }}
+    >
+      <Review review={JSON.stringify(data)} />
+    </div>
+  );
 }

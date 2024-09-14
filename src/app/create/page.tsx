@@ -200,124 +200,125 @@ export default function CreatePage() {
 
   return (
     <div
-      className="flex flex-col justify-center p-3 w-full md:w-[600px] mb-12"
+      className="flex flex-col w-full pb-12"
       style={{
         backgroundColor: colors.black,
       }}
     >
-      <div className="flex flex-row items-center justify-between w-full mb-2">
-        <h1
-          className="text-start font-bold text-xl"
-          style={{
-            color: colors.primaryText,
-          }}
-        >
-          {mode === "edit" ? "Edit" : "New"} Review
-        </h1>
-        <Button color="danger" variant="solid" onPress={router.back}>
-          Cancel
-        </Button>
-      </div>
-      <div className="flex flex-col justify-center gap-6">
-        {customCigar ? (
-          <>
-            <Input
-              label="Cigar name"
-              variant="underlined"
-              onValueChange={setCustomCigarName}
-              size="lg"
-              placeholder="Enter your cigar name"
-              isRequired
-            />
-          </>
-        ) : (
-          <>
-            <Autocomplete
-              label="Cigar"
-              placeholder={cigarSearch ? cigarSearch : "Search for your cigar"}
-              onInputChange={(i) => {
-                setIsFetchingCigars(true);
-                setCigarSearch(i);
-              }}
-              onSelectionChange={(k) =>
-                setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
-              }
-              size="lg"
-              defaultSelectedKey={record.cigarId}
-              defaultInputValue={cigarSearch}
-              variant="underlined"
-              isRequired
-              listboxProps={{
-                emptyContent: isFetchingCigars ? (
-                  "Loading..."
-                ) : cigarSearch.length > 0 ? (
-                  <Button onPress={() => setCustomCigar(true)}>
-                    Don&apos;t see your cigar? Add it
-                    <AddIcon />
-                  </Button>
-                ) : (
-                  "No results found."
-                ),
-              }}
-            >
-              {cigars.map((cigar) => {
-                return (
-                  <AutocompleteItem
-                    key={cigar.id}
-                    className="text-base"
-                    style={{ color: colors.primaryText }}
-                  >
-                    {cigar.name}
-                  </AutocompleteItem>
-                );
-              })}
-            </Autocomplete>
-          </>
-        )}
-
-        <div className="flex flex-col gap-1">
-          <p className="text-sm">
-            Image <span className="text-danger-400">*</span>
-          </p>
-          {imageSrc ? (
-            <div className="flex flex-row items-center">
-              <Image
-                src={imageSrc}
-                className="h-[100px] w-[100px] object-cover"
-                alt="my cigar image"
+      <div className="w-full md:max-w-[500px] p-3 m-auto">
+        <div className="flex flex-row items-center justify-between w-full mb-2">
+          <h1
+            className="text-start font-bold text-xl"
+            style={{
+              color: colors.primaryText,
+            }}
+          >
+            {mode === "edit" ? "Edit" : "New"} Review
+          </h1>
+          <Button color="danger" variant="solid" onPress={router.back}>
+            Cancel
+          </Button>
+        </div>
+        <div className="flex flex-col justify-center gap-6">
+          {customCigar ? (
+            <>
+              <Input
+                label="Cigar name"
+                variant="underlined"
+                onValueChange={setCustomCigarName}
+                size="lg"
+                placeholder="Enter your cigar name"
+                isRequired
               />
-              <Button
-                variant="flat"
-                color="danger"
-                className="ms-4"
-                onPress={() => {
-                  setImage(undefined);
-                  setImageSrc("");
-                }}
-                isIconOnly
-              >
-                <CloseIcon />
-              </Button>
-            </div>
+            </>
           ) : (
-            <div className="flex flex-col">
-              <input
-                ref={fileInput}
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files?.[0])}
-                className="hidden"
-              />
-              <Button
-                color="default"
-                variant="bordered"
-                onPress={() => fileInput.current?.click()}
+            <>
+              <Autocomplete
+                label="Cigar"
+                placeholder={cigarSearch ? cigarSearch : "Search for your cigar"}
+                onInputChange={(i) => {
+                  setIsFetchingCigars(true);
+                  setCigarSearch(i);
+                }}
+                onSelectionChange={(k) =>
+                  setRecord((prev) => ({ ...prev, cigarId: k ? k.toString() : "" }))
+                }
+                size="lg"
+                defaultSelectedKey={record.cigarId}
+                defaultInputValue={cigarSearch}
+                variant="underlined"
+                isRequired
+                listboxProps={{
+                  emptyContent: isFetchingCigars ? (
+                    "Loading..."
+                  ) : cigarSearch.length > 0 ? (
+                    <Button onPress={() => setCustomCigar(true)}>
+                      Don&apos;t see your cigar? Add it
+                      <AddIcon />
+                    </Button>
+                  ) : (
+                    "No results found."
+                  ),
+                }}
               >
-                <UploadIcon />
-                Upload
-              </Button>
+                {cigars.map((cigar) => {
+                  return (
+                    <AutocompleteItem
+                      key={cigar.id}
+                      className="text-base"
+                      style={{ color: colors.primaryText }}
+                    >
+                      {cigar.name}
+                    </AutocompleteItem>
+                  );
+                })}
+              </Autocomplete>
+            </>
+          )}
 
-              {/* <input
+          <div className="flex flex-col gap-1">
+            <p className="text-sm">
+              Image <span className="text-danger-400">*</span>
+            </p>
+            {imageSrc ? (
+              <div className="flex flex-row items-center">
+                <Image
+                  src={imageSrc}
+                  className="h-[100px] w-[100px] object-cover"
+                  alt="my cigar image"
+                />
+                <Button
+                  variant="flat"
+                  color="danger"
+                  className="ms-4"
+                  onPress={() => {
+                    setImage(undefined);
+                    setImageSrc("");
+                  }}
+                  isIconOnly
+                >
+                  <CloseIcon />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col">
+                <input
+                  ref={fileInput}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files?.[0])}
+                  className="hidden"
+                />
+                <Button
+                  color="default"
+                  variant="bordered"
+                  onPress={() => fileInput.current?.click()}
+                >
+                  <UploadIcon />
+                  Upload
+                </Button>
+
+                {/* <input
               ref={fileInput}
               type="file"
               accept="image/*"
@@ -340,156 +341,157 @@ export default function CreatePage() {
             >
               Upload
             </Button> */}
+              </div>
+            )}
+          </div>
+
+          <Textarea
+            label="Review"
+            placeholder="Enter your review"
+            value={record.review}
+            onValueChange={(review) => setRecord((prev) => ({ ...prev, review }))}
+            className="text-base"
+            size="lg"
+            variant="underlined"
+            isRequired
+            labelPlacement="outside"
+          />
+          <div className="flex flex-col gap-1">
+            <p className="text-sm ml-1">Rating ({record.rating})</p>
+
+            <div className="flex flex-row">
+              <Button
+                onPress={() => {
+                  const newRating = Math.max(0, record.rating - 0.5);
+                  setRecord((prev) => ({ ...prev, rating: newRating }));
+                }}
+                variant="bordered"
+                color="default"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  minWidth: "40px",
+                  padding: 0,
+                }}
+                className="text-4xl font-bold"
+              >
+                -
+              </Button>
+              <Rating
+                name="simple-controlled"
+                precision={0.5}
+                className="self-center mx-2"
+                value={record.rating}
+                defaultValue={2.5}
+                max={5}
+                onChange={(_, newValue) => {
+                  if (newValue) {
+                    setRecord((prev) => ({ ...prev, rating: newValue }));
+                  }
+                }}
+                size="large"
+                sx={{
+                  "& .MuiRating-iconEmpty": {
+                    color: "rgba(255, 255, 255, 0.25)",
+                  },
+                }}
+              />
+              <Button
+                onPress={() => {
+                  const newRating = Math.min(5, record.rating + 0.5);
+                  setRecord((prev) => ({ ...prev, rating: newRating }));
+                }}
+                variant="bordered"
+                color="default"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  minWidth: "40px",
+                  padding: 0,
+                }}
+                className="text-4xl font-bold"
+              >
+                +
+              </Button>
             </div>
+          </div>
+          <Input
+            label="Price (optional)"
+            placeholder="0.00"
+            size="lg"
+            startContent="$"
+            inputMode="decimal"
+            type="number"
+            value={record.price?.toString()}
+            onValueChange={(value) => {
+              let inputValue = value.replace(/[^0-9.]/g, ""); // Remove all non-numeric characters except the period
+              if (inputValue) {
+                const decimalParts = inputValue.split(".");
+                if (decimalParts.length > 2) {
+                  inputValue = `${decimalParts[0]}.${decimalParts[1]}`; // Only allow one decimal point
+                }
+                if (decimalParts[1] && decimalParts[1].length > 2) {
+                  inputValue = `${decimalParts[0]}.${decimalParts[1].substring(0, 2)}`; // Limit to two decimal places
+                }
+              }
+              const parsedInput = parseFloat(inputValue);
+              setRecord((prev) => ({
+                ...prev,
+                price: parsedInput ? parsedInput : null,
+              }));
+            }}
+            variant="underlined"
+            isClearable
+          />
+          <Button
+            onPress={onSave}
+            isLoading={isSaving}
+            isDisabled={!saveEnabled}
+            color="success"
+          >
+            Save
+          </Button>
+          {mode === "edit" && (
+            <>
+              <Button
+                onPress={() => setDeleteModalOpen(true)}
+                color="danger"
+                variant="flat"
+              >
+                Delete review
+              </Button>
+              <Modal
+                placement="center"
+                isOpen={deleteModalOpen}
+                onOpenChange={(c) => setDeleteModalOpen(c)}
+              >
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        Delete review
+                      </ModalHeader>
+                      <ModalBody>
+                        <p>
+                          Are you sure you want to delete this review? This cannot be
+                          undone.
+                        </p>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="primary" onPress={onClose}>
+                          Go back
+                        </Button>
+                        <Button color="danger" variant="flat" onPress={onDelete}>
+                          Delete
+                        </Button>
+                      </ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+            </>
           )}
         </div>
-
-        <Textarea
-          label="Review"
-          placeholder="Enter your review"
-          value={record.review}
-          onValueChange={(review) => setRecord((prev) => ({ ...prev, review }))}
-          className="text-base"
-          size="lg"
-          variant="underlined"
-          isRequired
-          labelPlacement="outside"
-        />
-        <div className="flex flex-col gap-1">
-          <p className="text-sm ml-1">Rating ({record.rating})</p>
-
-          <div className="flex flex-row">
-            <Button
-              onPress={() => {
-                const newRating = Math.max(0, record.rating - 0.5);
-                setRecord((prev) => ({ ...prev, rating: newRating }));
-              }}
-              variant="bordered"
-              color="default"
-              style={{
-                width: "40px",
-                height: "40px",
-                minWidth: "40px",
-                padding: 0,
-              }}
-              className="text-4xl font-bold"
-            >
-              -
-            </Button>
-            <Rating
-              name="simple-controlled"
-              precision={0.5}
-              className="self-center mx-2"
-              value={record.rating}
-              defaultValue={2.5}
-              max={5}
-              onChange={(_, newValue) => {
-                if (newValue) {
-                  setRecord((prev) => ({ ...prev, rating: newValue }));
-                }
-              }}
-              size="large"
-              sx={{
-                "& .MuiRating-iconEmpty": {
-                  color: "rgba(255, 255, 255, 0.25)",
-                },
-              }}
-            />
-            <Button
-              onPress={() => {
-                const newRating = Math.min(5, record.rating + 0.5);
-                setRecord((prev) => ({ ...prev, rating: newRating }));
-              }}
-              variant="bordered"
-              color="default"
-              style={{
-                width: "40px",
-                height: "40px",
-                minWidth: "40px",
-                padding: 0,
-              }}
-              className="text-4xl font-bold"
-            >
-              +
-            </Button>
-          </div>
-        </div>
-        <Input
-          label="Price (optional)"
-          placeholder="0.00"
-          size="lg"
-          startContent="$"
-          inputMode="decimal"
-          type="number"
-          value={record.price?.toString()}
-          onValueChange={(value) => {
-            let inputValue = value.replace(/[^0-9.]/g, ""); // Remove all non-numeric characters except the period
-            if (inputValue) {
-              const decimalParts = inputValue.split(".");
-              if (decimalParts.length > 2) {
-                inputValue = `${decimalParts[0]}.${decimalParts[1]}`; // Only allow one decimal point
-              }
-              if (decimalParts[1] && decimalParts[1].length > 2) {
-                inputValue = `${decimalParts[0]}.${decimalParts[1].substring(0, 2)}`; // Limit to two decimal places
-              }
-            }
-            const parsedInput = parseFloat(inputValue);
-            setRecord((prev) => ({
-              ...prev,
-              price: parsedInput ? parsedInput : null,
-            }));
-          }}
-          variant="underlined"
-          isClearable
-        />
-        <Button
-          onPress={onSave}
-          isLoading={isSaving}
-          isDisabled={!saveEnabled}
-          color="success"
-        >
-          Save
-        </Button>
-        {mode === "edit" && (
-          <>
-            <Button
-              onPress={() => setDeleteModalOpen(true)}
-              color="danger"
-              variant="flat"
-            >
-              Delete review
-            </Button>
-            <Modal
-              placement="center"
-              isOpen={deleteModalOpen}
-              onOpenChange={(c) => setDeleteModalOpen(c)}
-            >
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">
-                      Delete review
-                    </ModalHeader>
-                    <ModalBody>
-                      <p>
-                        Are you sure you want to delete this review? This cannot be
-                        undone.
-                      </p>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="primary" onPress={onClose}>
-                        Go back
-                      </Button>
-                      <Button color="danger" variant="flat" onPress={onDelete}>
-                        Delete
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
-          </>
-        )}
       </div>
     </div>
   );

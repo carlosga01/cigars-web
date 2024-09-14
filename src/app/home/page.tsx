@@ -82,70 +82,72 @@ export default async function HomePage({
 
   return (
     <div
-      className="flex flex-col items-center gap-1 w-full min-h-[100dvh] p-3 pb-16"
+      className="w-full min-h-[100dvh] pb-16"
       style={{
         backgroundColor: colors.black,
       }}
     >
-      <RefreshCache refresh={searchParams.refresh} />
-      <div className="flex flex-row justify-between w-full items-center mb-2">
-        <HomeTabs tab={tab} />
-        <SortByButton selectedKey={sortBy} />
-        <NewReviewButton />
-      </div>
-      {!!reviews.records.length ? (
-        <>
-          {reviews.records.reduce((acc, review, index, array) => {
-            const currentDate = new Date(review.smokedOn);
-            const currentMonth = currentDate.getMonth();
-            const currentYear = currentDate.getFullYear();
+      <div className="flex flex-col m-auto gap-1 p-3 w-full md:max-w-[500px]">
+        <RefreshCache refresh={searchParams.refresh} />
+        <div className="flex flex-row justify-between w-full items-center mb-2">
+          <HomeTabs tab={tab} />
+          <SortByButton selectedKey={sortBy} />
+          <NewReviewButton />
+        </div>
+        {!!reviews.records.length ? (
+          <>
+            {reviews.records.reduce((acc, review, index, array) => {
+              const currentDate = new Date(review.smokedOn);
+              const currentMonth = currentDate.getMonth();
+              const currentYear = currentDate.getFullYear();
 
-            if (
-              index === 0 ||
-              currentMonth !== new Date(array[index - 1].smokedOn).getMonth() ||
-              currentYear !== new Date(array[index - 1].smokedOn).getFullYear()
-            ) {
-              if (sortBy === "newest" || sortBy === "oldest") {
-                acc.push(
-                  <div
-                    key={`${currentDate.toLocaleString("default", {
-                      month: "long",
-                    })}-${currentYear}`}
-                    className={`w-full font-bold opacity-75 ms-4 italic ${
-                      index !== 0 ? "mt-2" : ""
-                    }`}
-                    style={{ color: colors.primaryText }}
-                  >
-                    {`${currentDate.toLocaleString("default", {
-                      month: "long",
-                    })} ${currentYear}`}
-                  </div>,
-                );
+              if (
+                index === 0 ||
+                currentMonth !== new Date(array[index - 1].smokedOn).getMonth() ||
+                currentYear !== new Date(array[index - 1].smokedOn).getFullYear()
+              ) {
+                if (sortBy === "newest" || sortBy === "oldest") {
+                  acc.push(
+                    <div
+                      key={`${currentDate.toLocaleString("default", {
+                        month: "long",
+                      })}-${currentYear}`}
+                      className={`w-full font-bold opacity-75 ms-4 italic ${
+                        index !== 0 ? "mt-2" : ""
+                      }`}
+                      style={{ color: colors.primaryText }}
+                    >
+                      {`${currentDate.toLocaleString("default", {
+                        month: "long",
+                      })} ${currentYear}`}
+                    </div>,
+                  );
+                }
               }
-            }
 
-            acc.push(<ReviewCard reviewData={JSON.stringify(review)} index={index} />);
-            return acc;
-          }, [] as React.JSX.Element[])}
-        </>
-      ) : reviews.records.length === 0 ? (
-        <div className="flex flex-col gap-4 mt-8 items-center">
-          <div className="text-md text-center text-slate-600">
-            You have not reviewed any cigars yet
+              acc.push(<ReviewCard reviewData={JSON.stringify(review)} index={index} />);
+              return acc;
+            }, [] as React.JSX.Element[])}
+          </>
+        ) : reviews.records.length === 0 ? (
+          <div className="flex flex-col gap-4 mt-8 items-center">
+            <div className="text-md text-center text-slate-600">
+              You have not reviewed any cigars yet
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="flex w-full justify-center">
-          <Spinner size="lg" />
-        </div>
-      )}
-      {!!reviews.records.length && (
-        <div className="flex justify-center w-full md:w-[600px] px-4 pt-4">
-          <PaginationControls
-            numRecords={numReviews.summaries[0].all_reviews.toString()}
-          />
-        </div>
-      )}
+        ) : (
+          <div className="flex w-full justify-center">
+            <Spinner size="lg" />
+          </div>
+        )}
+        {!!reviews.records.length && (
+          <div className="flex justify-center w-full px-4 pt-4">
+            <PaginationControls
+              numRecords={numReviews.summaries[0].all_reviews.toString()}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
