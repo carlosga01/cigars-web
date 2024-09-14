@@ -25,17 +25,23 @@ export default function Review({ review }: Props) {
     setData(JSON.parse(review) as ReviewsRecord);
   }, [review]);
 
+  const [userError, setUserError] = useState(false);
   useEffect(() => {
     const getUser = async () => {
       if (!!data?.userId) {
-        const u = await fetch(
-          "/api/user?" +
-            new URLSearchParams({
-              userId: data.userId,
-            }),
-        );
-        const u2 = await u.json();
-        setReviewUser(u2.data as User);
+        try {
+          const u = await fetch(
+            "/api/user?" +
+              new URLSearchParams({
+                userId: data.userId,
+              }),
+          );
+          const u2 = await u.json();
+          setReviewUser(u2.data as User);
+          setUserError(false);
+        } catch (e) {
+          setUserError(true);
+        }
       }
     };
     getUser();
@@ -133,11 +139,13 @@ export default function Review({ review }: Props) {
             className="h-[50px] w-[50px] rounded-full"
           />
           <div className="text-base ms-2" style={{ color: colors.primaryText }}>
-            {!user || !reviewUser
-              ? "Loading..."
-              : reviewUser?.id === user?.id
-                ? "You"
-                : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
+            {!!userError
+              ? null
+              : !user || !reviewUser
+                ? "Loading..."
+                : reviewUser?.id === user?.id
+                  ? "You"
+                  : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
           </div>
         </div>
       </div>

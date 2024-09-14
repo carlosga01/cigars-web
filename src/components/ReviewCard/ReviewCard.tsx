@@ -26,17 +26,23 @@ export default function ReviewCard({ reviewData, index }: Props) {
     setReview(JSON.parse(reviewData) as ReviewsRecord);
   }, [reviewData]);
 
+  const [userError, setUserError] = useState(false);
   useEffect(() => {
     const getUser = async () => {
       if (!!review?.userId) {
-        const u = await fetch(
-          "/api/user?" +
-            new URLSearchParams({
-              userId: review.userId,
-            }),
-        );
-        const u2 = await u.json();
-        setReviewUser(u2.data as User);
+        try {
+          const u = await fetch(
+            "/api/user?" +
+              new URLSearchParams({
+                userId: review.userId,
+              }),
+          );
+          const u2 = await u.json();
+          setReviewUser(u2.data as User);
+          setUserError(false);
+        } catch (e) {
+          setUserError(true);
+        }
       }
     };
     getUser();
@@ -95,11 +101,13 @@ export default function ReviewCard({ reviewData, index }: Props) {
               <div className="flex flex-row justify-end">
                 <Image alt="User image" src={reviewUser?.imageUrl} className="h-4 w-4" />
                 <div className="text-xs ms-2 opacity-75">
-                  {!user || !reviewUser
-                    ? "Loading..."
-                    : reviewUser?.id === user?.id
-                      ? "You"
-                      : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
+                  {!!userError
+                    ? null
+                    : !user || !reviewUser
+                      ? "Loading..."
+                      : reviewUser?.id === user?.id
+                        ? "You"
+                        : reviewUser?.firstName + " " + reviewUser?.lastName?.[0] + "."}
                 </div>
               </div>
               <p className="text-xs italic self-end opacity-75">
