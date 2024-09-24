@@ -11,6 +11,7 @@ import {
   Button,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarMenuToggle,
 } from "@nextui-org/react";
 import { useState } from "react";
 import colors from "@/theme/colors";
@@ -26,10 +27,7 @@ export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuItems = [
-    { label: "My reviews", href: "/home?tab=me" },
-    { label: "All reviews", href: "/home?tab=all" },
-  ];
+  const menuItems = [{ label: "Puros Blog", href: "/blog" }];
 
   if (["/", "/sign-in", "/sign-up"].includes(pathname)) return null;
 
@@ -48,11 +46,11 @@ export default function Header() {
         zIndex: 1000,
       }}
     >
-      <NavbarContent className="sm:hidden" justify="start">
-        {/* <NavbarMenuToggle
+      <NavbarContent justify="start">
+        <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           style={{ color: colors.primaryText }}
-        /> */}
+        />
       </NavbarContent>
       {!!user && (
         <NavbarContent justify="start" style={{ justifyContent: "center" }}>

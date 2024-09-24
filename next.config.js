@@ -5,4 +5,14 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = {
+  ...nextConfig,
+  async rewrites() {
+    return [
+      {
+        source: "/blog/:path*",
+        destination: "https://blogpuros.wordpress.com/:path*",
+      },
+    ];
+  },
+};
