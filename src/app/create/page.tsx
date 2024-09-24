@@ -252,7 +252,12 @@ export default function CreatePage() {
                   emptyContent: isFetchingCigars ? (
                     "Loading..."
                   ) : cigarSearch.length > 0 ? (
-                    <Button onPress={() => setCustomCigar(true)}>
+                    <Button
+                      onPress={() => {
+                        setCustomCigar(true);
+                        setCustomCigarName(cigarSearch);
+                      }}
+                    >
                       Don&apos;t see your cigar? Add it
                       <AddIcon />
                     </Button>

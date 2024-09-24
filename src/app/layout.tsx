@@ -6,6 +6,7 @@ import { Header, ScrollToTop } from "@/components";
 import { Providers } from "@/providers";
 import colors from "@/theme/colors";
 import { HEADER_HEIGHT } from "@/components/Header";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const robotoFlex = Roboto_Flex({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <link rel="manifest" href="/site.webmanifest" />
             <title>Puros</title>
           </head>
+          <GoogleAnalytics gaId="G-6KTQR95BD1" />
           <body className={robotoFlex.className}>
             <Header />
             <div style={{ marginTop: HEADER_HEIGHT, backgroundColor: colors.background }}>
