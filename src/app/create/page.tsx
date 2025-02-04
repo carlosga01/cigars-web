@@ -50,7 +50,7 @@ export default function CreatePage() {
   const [image, setImage] = useState<File>();
   const [imageSrc, setImageSrc] = useState("");
 
-  const [customCigar, setCustomCigar] = useState(false);
+  const [customCigar, setCustomCigar] = useState(true);
   const [customCigarName, setCustomCigarName] = useState("");
 
   const [isFetchingCigars, setIsFetchingCigars] = useState(false);
